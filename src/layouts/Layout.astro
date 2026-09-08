@@ -1,9 +1,14 @@
+---
+import { Font } from "astro:assets";
+---
+
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>Green Light</title>
+        <Font cssVariable="--font-display" preload />
     </head>
     <body>
         <slot />
@@ -11,21 +16,12 @@
 </html>
 
 <style is:global>
-    @font-face {
-        font-family: "Acid Grotesk";
-        src: url("/AcidGrotesk-Medium.woff2") format("woff2");
-        font-display: swap;
-        font-style: normal;
-        font-weight: 500;
-    }
-
     :root {
         --color-canvas: #000000;
         --color-text: #f4f3ef;
         --color-signal-red: #d41720;
         --color-signal-yellow: #dead0d;
         --color-signal-green: #0bc6b9;
-        --font-display: "Acid Grotesk", sans-serif;
         --type-message: clamp(1.875rem, 4.4vw, 4rem);
         --leading-message: 0.98;
         --tracking-message: -0.035em;
