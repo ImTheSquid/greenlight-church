@@ -187,6 +187,8 @@ const marqueeColors = ["red", "yellow", "green"];
         margin-inline: calc(var(--space-page) * -1);
         overflow-x: auto;
         overscroll-behavior-inline: contain;
+        scroll-padding-inline: var(--space-page);
+        scroll-snap-type: inline mandatory;
         scrollbar-width: thin;
         scrollbar-color: var(--color-signal-red) transparent;
     }
@@ -208,6 +210,7 @@ const marqueeColors = ["red", "yellow", "green"];
         block-size: clamp(15rem, 32vw, 31rem);
         margin: 0;
         overflow: hidden;
+        scroll-snap-align: start;
         background: #161616;
     }
 
