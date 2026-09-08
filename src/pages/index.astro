@@ -1,5 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import camera from "../assets/home/camera.jpeg";
+import floor from "../assets/home/floor.jpeg";
+import mff from "../assets/home/mff.jpeg";
+import peace from "../assets/home/peace.jpeg";
+import sofa from "../assets/home/sofa.jpeg";
+
+const photos = [
+    { image: peace, alt: "A peaceful scene" },
+    { image: camera, alt: "A camera" },
+    { image: floor, alt: "A view of the floor" },
+    { image: mff, alt: "Green Light photo" },
+    { image: sofa, alt: "A sofa" },
+];
 ---
 
 <Layout>
@@ -10,6 +24,27 @@ import Layout from "../layouts/Layout.astro";
             two weeks on Friday nights: next on <span class="red">Sept 11</span
             >.
         </p>
+
+        <section class="filmstrip" aria-labelledby="filmstrip-title">
+            <div class="filmstrip__scroller" tabindex="0">
+                <div class="filmstrip__track">
+                    {
+                        photos.map(({ image, alt }) => (
+                            <figure class="filmstrip__frame">
+                                <Image
+                                    src={image}
+                                    alt={alt}
+                                    sizes="(max-width: 640px) 72vw, 28vw"
+                                    widths={[480, 720, 960]}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            </figure>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
     </main>
 
     <aside class="marquee" aria-hidden="true">
@@ -99,6 +134,68 @@ import Layout from "../layouts/Layout.astro";
             "ss06" on,
             "ss08" on,
             "ss09" on;
+    }
+
+    .filmstrip {
+        margin-block-start: clamp(4rem, 13vw, 10rem);
+    }
+
+    .filmstrip h2 {
+        margin: 0 0 1rem;
+        color: var(--color-signal-yellow);
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .filmstrip__scroller {
+        margin-inline: calc(var(--space-page) * -1);
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-signal-green) transparent;
+    }
+
+    .filmstrip__scroller:focus-visible {
+        outline: 2px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
+    }
+
+    .filmstrip__track {
+        display: flex;
+        gap: clamp(0.75rem, 1.5vw, 1.5rem);
+        inline-size: max-content;
+        padding-inline: var(--space-page);
+    }
+
+    .filmstrip__frame {
+        flex: 0 0 clamp(15rem, 28vw, 28rem);
+        block-size: clamp(15rem, 32vw, 31rem);
+        margin: 0;
+        overflow: hidden;
+        background: #161616;
+    }
+
+    .filmstrip__frame img {
+        display: block;
+        inline-size: 100%;
+        block-size: 100%;
+        object-fit: cover;
+        filter: saturate(0.9);
+        transition: filter 180ms ease;
+    }
+
+    .filmstrip__frame:hover img,
+    .filmstrip__frame:focus-within img {
+        filter: saturate(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .filmstrip__frame img {
+            transition: none;
+        }
     }
 
     .marquee {
