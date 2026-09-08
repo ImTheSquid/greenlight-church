@@ -66,31 +66,15 @@ const photos = [
     <aside class="marquee" aria-hidden="true">
         <div class="marquee__track">
             <div class="marquee__sequence">
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
+                <span class="marquee__label red">PLAY ANYTHING</span>
+                <span class="marquee__label yellow">PLAY ANYTHING</span>
+                <span class="marquee__label green">PLAY ANYTHING</span>
+                <span class="marquee__label red">PLAY ANYTHING</span>
+                <span class="marquee__label yellow">PLAY ANYTHING</span>
+                <span class="marquee__label green">PLAY ANYTHING</span>
+                <span class="marquee__label red">PLAY ANYTHING</span>
+                <span class="marquee__label yellow">PLAY ANYTHING</span>
+                <span class="marquee__label marquee__labelreen"
                     >PLAY ANYTHING</span
                 >
             </div>
@@ -164,9 +148,12 @@ const photos = [
         transform: translateY(105%);
     }
 
-    .intro-copy.is-revealed .intro-line__text {
-        animation: vertical-cut-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-        animation-delay: calc(var(--line-index) * 180ms);
+    @media (prefers-reduced-motion: no-preference) {
+        .intro-copy.is-revealed .intro-line__text {
+            animation: vertical-cut-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1)
+                both;
+            animation-delay: calc(var(--line-index) * 180ms);
+        }
     }
 
     @keyframes vertical-cut-reveal {
@@ -198,7 +185,7 @@ const photos = [
         overflow-x: auto;
         overscroll-behavior-inline: contain;
         scrollbar-width: thin;
-        scrollbar-color: var(--color-signal-green) transparent;
+        scrollbar-color: var(--color-signal-red) transparent;
     }
 
     .filmstrip__scroller:focus-visible {
@@ -214,7 +201,7 @@ const photos = [
     }
 
     .filmstrip__frame {
-        flex: 0 0 clamp(15rem, 28vw, 28rem);
+        flex: 0 0 auto;
         block-size: clamp(15rem, 32vw, 31rem);
         margin: 0;
         overflow: hidden;
@@ -223,26 +210,19 @@ const photos = [
 
     .filmstrip__frame img {
         display: block;
-        inline-size: 100%;
+        inline-size: auto;
         block-size: 100%;
-        object-fit: cover;
-        filter: saturate(0.875);
-        transition: filter 180ms ease;
     }
 
-    .filmstrip__frame:hover img,
-    .filmstrip__frame:focus-within img {
-        filter: saturate(1.1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .intro-line__text {
-            transform: none;
-            animation: none;
+    @media (prefers-reduced-motion: no-preference) {
+        .filmstrip__frame img {
+            filter: saturate(0.875);
+            transition: filter 180ms ease;
         }
 
-        .filmstrip__frame img {
-            transition: none;
+        .filmstrip__frame:hover img,
+        .filmstrip__frame:focus-within img {
+            filter: saturate(1.1);
         }
     }
 
@@ -286,18 +266,6 @@ const photos = [
         line-height: var(--leading-marquee);
         letter-spacing: var(--tracking-marquee);
         white-space: nowrap;
-    }
-
-    .marquee__label--red {
-        color: var(--color-signal-red);
-    }
-
-    .marquee__label--yellow {
-        color: var(--color-signal-yellow);
-    }
-
-    .marquee__label--green {
-        color: var(--color-signal-green);
     }
 
     @keyframes marquee-left {
