@@ -1,61 +1,71 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Green Light</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Green Light</title>
+    </head>
+    <body>
+        <slot />
+    </body>
 </html>
 
 <style is:global>
-	@font-face {
-		font-family: 'Acid Grotesk';
-		src: url('/AcidGrotesk-Medium.woff2') format('woff2');
-		font-display: swap;
-		font-style: normal;
-		font-weight: 500;
-	}
+    @font-face {
+        font-family: "Acid Grotesk";
+        src: url("/AcidGrotesk-Medium.woff2") format("woff2");
+        font-display: swap;
+        font-style: normal;
+        font-weight: 500;
+    }
 
-		:root {
-			--color-canvas: #000000;
-			--color-text: #f4f3ef;
-			--color-signal-red: #ff3b30;
-			--color-signal-yellow: #ffd60a;
-			--color-signal-green: #30d158;
-			--font-display: 'Acid Grotesk', sans-serif;
-			--type-message: clamp(1.875rem, 4.4vw, 4rem);
-			--leading-message: 0.98;
-			--tracking-message: -0.035em;
-			--type-marquee: clamp(1.5rem, 3vw, 2.75rem);
-			--leading-marquee: 1;
-			--tracking-marquee: -0.03em;
-			--space-page: clamp(1rem, 3vw, 3rem);
-			--space-intro-start: clamp(2rem, 7.5vw, 6rem);
-			--space-marquee-gap: clamp(1.5rem, 3vw, 3rem);
-			--marquee-block-size: clamp(3.5rem, 6vw, 5.5rem);
-			--duration-marquee: 24s;
-		}
+    :root {
+        --color-canvas: #000000;
+        --color-text: #f4f3ef;
+        --color-signal-red: #d41720;
+        --color-signal-yellow: #dead0d;
+        --color-signal-green: #0bc6b9;
+        --font-display: "Acid Grotesk", sans-serif;
+        --type-message: clamp(1.875rem, 4.4vw, 4rem);
+        --leading-message: 0.98;
+        --tracking-message: -0.035em;
+        --type-marquee: clamp(1.5rem, 3vw, 2.75rem);
+        --leading-marquee: 1;
+        --tracking-marquee: -0.03em;
+        --space-page: clamp(1rem, 3vw, 3rem);
+        --space-intro-start: clamp(2rem, 7.5vw, 6rem);
+        --space-marquee-gap: clamp(1.5rem, 3vw, 3rem);
+        --marquee-block-size: clamp(3.5rem, 6vw, 5.5rem);
+        --duration-marquee: 24s;
+    }
 
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-	}
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
 
-		html {
-			background: var(--color-canvas);
-			overflow-x: clip;
-		}
+    html {
+        background: var(--color-canvas);
+        overflow-x: clip;
+    }
 
-	body {
-		min-inline-size: 0;
-		min-block-size: 100%;
-		margin: 0;
-		background: var(--color-canvas);
-		color: var(--color-text);
-		font-family: var(--font-display);
-	}
+    body {
+        min-inline-size: 0;
+        min-block-size: 100%;
+        margin: 0;
+        background: var(--color-canvas);
+        color: var(--color-text);
+        font-family: var(--font-display);
+    }
+
+    .red {
+        color: var(--color-signal-red);
+    }
+    .yellow {
+        color: var(--color-signal-yellow);
+    }
+    .green {
+        color: var(--color-signal-green);
+    }
 </style>

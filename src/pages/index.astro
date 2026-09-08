@@ -1,124 +1,172 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<main>
-		<p>Green Light is a multi-genre radio show based in San Francisco, CA. It streams every two weeks on Friday nights: next on Sept 11.</p>
-	</main>
+    <main>
+        <p>
+            <span class="green">Green Light</span> is a multi-genre radio show based
+            in <span class="yellow">San Francisco</span>, CA. It streams every
+            two weeks on Friday nights: next on <span class="red">Sept 11</span
+            >.
+        </p>
+    </main>
 
-	<aside class="marquee" aria-hidden="true">
-		<div class="marquee__track">
-			<div class="marquee__sequence">
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-			</div>
-			<div class="marquee__sequence">
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--red">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--yellow">PLAY ANYTHING</span>
-				<span class="marquee__label marquee__label--green">PLAY ANYTHING</span>
-			</div>
-		</div>
-	</aside>
+    <aside class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+            <div class="marquee__sequence">
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+            </div>
+            <div class="marquee__sequence">
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--red"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--yellow"
+                    >PLAY ANYTHING</span
+                >
+                <span class="marquee__label marquee__label--green"
+                    >PLAY ANYTHING</span
+                >
+            </div>
+        </div>
+    </aside>
 </Layout>
 
 <style>
-	main {
-		min-block-size: 100dvh;
-		padding-block: var(--space-intro-start) calc(var(--marquee-block-size) + var(--space-page));
-		padding-inline: var(--space-page);
-	}
+    main {
+        min-block-size: 100dvh;
+        padding-block: var(--space-intro-start)
+            calc(var(--marquee-block-size) + var(--space-page));
+        padding-inline: var(--space-page);
+    }
 
-	p {
-		max-inline-size: 100%;
-		margin: 0;
-		font-size: var(--type-message);
-		font-weight: 500;
-		line-height: var(--leading-message);
-		letter-spacing: var(--tracking-message);
-		overflow-wrap: break-word;
-		font-feature-settings: 'dlig' on, 'ss02' on, 'ss05' on, 'ss06' on, 'ss08' on, 'ss09' on;
-	}
+    p {
+        max-inline-size: 24ch;
+        margin: 0;
+        font-size: var(--type-message);
+        font-weight: 500;
+        line-height: var(--leading-message);
+        letter-spacing: var(--tracking-message);
+        overflow-wrap: break-word;
+        font-feature-settings:
+            "dlig" on,
+            "ss02" on,
+            "ss05" on,
+            "ss06" on,
+            "ss08" on,
+            "ss09" on;
+    }
 
-	.marquee {
-		position: fixed;
-		inset-block-end: 0;
-		inset-inline: 0;
-		display: flex;
-		block-size: var(--marquee-block-size);
-		align-items: center;
-		overflow: hidden;
-		background: var(--color-canvas);
-		pointer-events: none;
-	}
+    .marquee {
+        position: fixed;
+        inset-block-end: 0;
+        inset-inline: 0;
+        display: flex;
+        block-size: var(--marquee-block-size);
+        align-items: center;
+        overflow: hidden;
+        background: var(--color-canvas);
+        pointer-events: none;
+    }
 
-	.marquee__track {
-		display: flex;
-		inline-size: max-content;
-		animation: marquee-left var(--duration-marquee) linear infinite;
-		will-change: transform;
-	}
+    .marquee__track {
+        display: flex;
+        inline-size: max-content;
+        animation: marquee-left var(--duration-marquee) linear infinite;
+        will-change: transform;
+    }
 
-	.marquee__sequence {
-		display: flex;
-		flex: none;
-		align-items: center;
-		gap: var(--space-marquee-gap);
-		padding-inline-end: var(--space-marquee-gap);
-	}
+    .marquee__sequence {
+        display: flex;
+        flex: none;
+        align-items: center;
+        gap: var(--space-marquee-gap);
+        padding-inline-end: var(--space-marquee-gap);
+    }
 
-	.marquee__label {
-		flex: none;
-		font-size: var(--type-marquee);
-		font-weight: 500;
-		line-height: var(--leading-marquee);
-		letter-spacing: var(--tracking-marquee);
-		white-space: nowrap;
-	}
+    .marquee__label {
+        flex: none;
+        font-size: var(--type-marquee);
+        font-weight: 500;
+        line-height: var(--leading-marquee);
+        letter-spacing: var(--tracking-marquee);
+        white-space: nowrap;
+    }
 
-	.marquee__label--red {
-		color: var(--color-signal-red);
-	}
+    .marquee__label--red {
+        color: var(--color-signal-red);
+    }
 
-	.marquee__label--yellow {
-		color: var(--color-signal-yellow);
-	}
+    .marquee__label--yellow {
+        color: var(--color-signal-yellow);
+    }
 
-	.marquee__label--green {
-		color: var(--color-signal-green);
-	}
+    .marquee__label--green {
+        color: var(--color-signal-green);
+    }
 
-	@keyframes marquee-left {
-		from {
-			transform: translate3d(0, 0, 0);
-		}
+    @keyframes marquee-left {
+        from {
+            transform: translate3d(0, 0, 0);
+        }
 
-		to {
-			transform: translate3d(-50%, 0, 0);
-		}
-	}
+        to {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
 
-	@media (prefers-reduced-motion: reduce) {
-		.marquee__track {
-			animation: none;
-			will-change: auto;
-		}
+    @media (prefers-reduced-motion: reduce) {
+        .marquee__track {
+            animation: none;
+            will-change: auto;
+        }
 
-		.marquee__sequence:last-child {
-			display: none;
-		}
-	}
+        .marquee__sequence:last-child {
+            display: none;
+        }
+    }
 </style>
