@@ -1,5 +1,9 @@
 ---
 import { Font } from "astro:assets";
+
+const title = "Green Light";
+const description = "Green Light is a multi-genre radio show based in San Francisco.";
+const image = "/opengraph-image.png";
 ---
 
 <!doctype html>
@@ -8,9 +12,25 @@ import { Font } from "astro:assets";
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512" />
+        <link
+            rel="icon"
+            href="/icon-512.png"
+            type="image/png"
+            sizes="512x512"
+        />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <title>Green Light</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
         <Font cssVariable="--font-display" preload />
     </head>
     <body>
@@ -26,7 +46,7 @@ import { Font } from "astro:assets";
         --color-signal-yellow: #dead0d;
         --color-signal-green: #0bc6b9;
         --type-message: clamp(2.75rem, 4.4vw, 4rem);
-        --leading-message: 0.98;
+        --leading-message: 1;
         --tracking-message: -0.035em;
         --type-marquee: clamp(1.55rem, 3vw, 2.75rem);
         --leading-marquee: 1;
