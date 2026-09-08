@@ -20,16 +20,28 @@ const marqueeColors = ["red", "yellow", "green"];
 
 <Layout>
     <main>
+        <!--
+        <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/39BalPDuTo0?si=n5yzyZ5heD0rJlIk"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+            -->
+
         <p class="intro-copy">
             <span class="intro-line" style="--line-index: 0">
                 <span class="intro-line__text"
-                    ><span class="green">Green Light</span> is a multi-genre radio</span
+                    ><strong class="green">Green Light</strong> is a multi-genre radio</span
                 >
             </span>
             <span class="intro-line" style="--line-index: 1">
                 <span class="intro-line__text"
-                    >show based in <span class="yellow">San Francisco</span>,
-                    CA.</span
+                    >show based in <strong class="yellow">San Francisco</strong
+                    >, CA.</span
                 >
             </span>
             <span class="intro-line" style="--line-index: 2">
@@ -37,7 +49,8 @@ const marqueeColors = ["red", "yellow", "green"];
             </span>
             <span class="intro-line" style="--line-index: 3">
                 <span class="intro-line__text"
-                    >on Friday nights: next on <span class="red">Sept 11</span
+                    >on Friday nights: next on <strong class="red"
+                        >Sept 11</strong
                     >.</span
                 >
             </span>
@@ -92,6 +105,18 @@ const marqueeColors = ["red", "yellow", "green"];
         padding-inline: var(--space-page);
     }
 
+    iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        margin-block-start: calc(var(--space-page) * -1);
+        margin-block-end: calc(var(--space-page) * 3);
+    }
+
+    main:has(iframe) + .marquee {
+        display: none;
+    }
+
     .intro-copy {
         max-inline-size: 24ch;
         margin: 0;
@@ -107,6 +132,11 @@ const marqueeColors = ["red", "yellow", "green"];
             "ss06" on,
             "ss08" on,
             "ss09" on;
+    }
+
+    .intro-copy strong {
+        white-space: nowrap;
+        font-weight: inherit;
     }
 
     .intro-line {
@@ -228,7 +258,9 @@ const marqueeColors = ["red", "yellow", "green"];
         display: flex;
         flex: none;
         align-items: center;
+        justify-content: space-around;
         gap: var(--space-marquee-gap);
+        min-inline-size: 100vw;
         padding-inline-end: var(--space-marquee-gap);
     }
 
