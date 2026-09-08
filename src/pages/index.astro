@@ -14,6 +14,8 @@ const photos = [
     { image: mff, alt: "Green Light photo" },
     { image: sofa, alt: "A sofa" },
 ];
+
+const marqueeColors = ["red", "yellow", "green"];
 ---
 
 <Layout>
@@ -65,48 +67,19 @@ const photos = [
 
     <aside class="marquee" aria-hidden="true">
         <div class="marquee__track">
-            <div class="marquee__sequence">
-                <span class="marquee__label red">PLAY ANYTHING</span>
-                <span class="marquee__label yellow">PLAY ANYTHING</span>
-                <span class="marquee__label green">PLAY ANYTHING</span>
-                <span class="marquee__label red">PLAY ANYTHING</span>
-                <span class="marquee__label yellow">PLAY ANYTHING</span>
-                <span class="marquee__label green">PLAY ANYTHING</span>
-                <span class="marquee__label red">PLAY ANYTHING</span>
-                <span class="marquee__label yellow">PLAY ANYTHING</span>
-                <span class="marquee__label marquee__labelreen"
-                    >PLAY ANYTHING</span
-                >
-            </div>
-            <div class="marquee__sequence">
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--red"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--yellow"
-                    >PLAY ANYTHING</span
-                >
-                <span class="marquee__label marquee__label--green"
-                    >PLAY ANYTHING</span
-                >
-            </div>
+            {
+                Array.from({ length: 2 }, () => (
+                    <div class="marquee__sequence">
+                        {Array.from({ length: 3 }, () =>
+                            marqueeColors.map((color) => (
+                                <span class={`marquee__label ${color}`}>
+                                    PLAY ANYTHING
+                                </span>
+                            )),
+                        )}
+                    </div>
+                ))
+            }
         </div>
     </aside>
 </Layout>
