@@ -9,6 +9,12 @@ const marqueeColors = ["red", "yellow", "green"]
 const date = "2026-09-25T21:00:00"
 const showDate = wallTimeToInstant(date, "America/Los_Angeles")
 
+const showDateLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  timeZone: "America/Los_Angeles",
+}).format(showDate)
+
 const isStreaming = false
 ---
 
@@ -43,7 +49,7 @@ const isStreaming = false
             <span class="intro-line" style="--line-index: 3">
                 <span class="intro-line__text"
                     >next at 9PM PT on <strong class="red"
-                        >September 25</strong
+                        >{showDateLabel}</strong
                     >.</span
                 >
             </span>
