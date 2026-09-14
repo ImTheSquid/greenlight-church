@@ -69,6 +69,8 @@ const { date } = Astro.props
     }
 
     update() {
+      const dateString = this.element.getAttribute('data-date') || '';
+      this.endDate = new Date(dateString).getTime();
       const now = new Date().getTime();
       const distance = this.endDate - now;
 

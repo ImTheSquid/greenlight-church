@@ -2,24 +2,25 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
-import { wallTimeToInstant } from "../lib/datetime"
+import { nextShowDate } from "../lib/datetime"
+import cancelledDates from "../data/cancelled.json"
 
 const marqueeColors = ["red", "yellow", "green"]
 
-const date = "2026-09-25T21:00:00"
-const showDate = wallTimeToInstant(date, "America/Los_Angeles")
+const NEXT_SHOW_ANCHOR = "2026-07-31"
+const showDate = nextShowDate(new Date(), NEXT_SHOW_ANCHOR, cancelledDates)
 
 const showDateLabel = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  day: "numeric",
-  timeZone: "America/Los_Angeles",
+	month: "long",
+	day: "numeric",
+	timeZone: "America/Los_Angeles",
 }).format(showDate)
 
 const isStreaming = false
 ---
 
 <Layout>
-    <main>
+    <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
       {isStreaming && <iframe
             width="560"
             height="315"
@@ -277,16 +278,36 @@ const isStreaming = false
 </style>
 
 <script>
-    const introCopy = document.querySelector(".intro-copy");
+    import cancelledDates from "../data/cancelled.json"
+    import { nextShowDate } from "../lib/datetime"
+
+    const main = document.querySelector("main")
+    const introCopy = document.querySelector(".intro-copy")
     const archivesLink = document.querySelector(".archives-link")
+    const showDateLabel = document.querySelector(".intro-line strong.red")
+    const countdown = document.querySelector(".countdown")
+
+    const anchor = main?.dataset.nextShowAnchor
+    if (anchor && showDateLabel && countdown) {
+        const target = nextShowDate(new Date(), anchor, cancelledDates)
+        const baked = new Date(countdown.getAttribute("data-date") ?? "").getTime()
+        if (!Number.isNaN(baked) && baked !== target.getTime()) {
+            showDateLabel.textContent = new Intl.DateTimeFormat("en-US", {
+                month: "long",
+                day: "numeric",
+                timeZone: "America/Los_Angeles",
+            }).format(target)
+            countdown.setAttribute("data-date", target.toISOString())
+        }
+    }
 
     if (
         introCopy &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
         requestAnimationFrame(() => {
-          introCopy.classList.add("is-revealed")
-          archivesLink.classList.add("is-revealed")
-        });
+            introCopy.classList.add("is-revealed")
+            archivesLink.classList.add("is-revealed")
+        })
     }
 </script>
