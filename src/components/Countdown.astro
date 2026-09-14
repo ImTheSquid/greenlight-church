@@ -1,0 +1,100 @@
+---
+const { date } = Astro.props
+---
+
+<dl class="countdown" data-date={date}>
+  <div class="time-box">
+    <dt>Days</dt>
+    <dd id="days">00</dd>
+  </div>
+  <div class="time-box">
+    <dt>Hours</dt>
+    <dd id="hours">00</dd>
+  </div>
+  <div class="time-box">
+    <dt>Minutes</dt>
+    <dd id="minutes">00</dd>
+  </div>
+  <div class="time-box">
+    <dt>Seconds</dt>
+    <dd id="seconds">00</dd>
+  </div>
+</dl>
+
+<style>
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    row-gap: 1rem;
+  }
+  @media (min-width: 32em) {
+    .countdown {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      text-align: center;
+    }
+  }
+  .countdown div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+  }
+  .countdown dt {
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .countdown dd {
+    font-size: var(--type-message);
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+  }
+</style>
+
+<script>
+  class CountdownTimer {
+    element: HTMLElement;
+    endDate: number;
+    timerId: number | undefined;
+
+    constructor(el: HTMLElement) {
+      this.element = el;
+      const dateString = el.getAttribute('data-date') || '';
+      this.endDate = new Date(dateString).getTime();
+      this.init();
+    }
+
+    init() {
+      this.update();
+      this.timerId = window.setInterval(() => this.update(), 1000);
+    }
+
+    update() {
+      const now = new Date().getTime();
+      const distance = this.endDate - now;
+
+      if (distance <= 0) {
+        clearInterval(this.timerId);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      this.setInnerText('#days', String(days).padStart(2, '0'));
+      this.setInnerText('#hours', String(hours).padStart(2, '0'));
+      this.setInnerText('#minutes', String(minutes).padStart(2, '0'));
+      this.setInnerText('#seconds', String(seconds).padStart(2, '0'));
+    }
+
+    setInnerText(selector: string, value: string) {
+      const target = this.element.querySelector(selector);
+      if (target) target.textContent = value;
+    }
+  }
+
+  document.querySelectorAll('.countdown').forEach((el) => {
+    new CountdownTimer(el as HTMLElement);
+  });
+</script>
