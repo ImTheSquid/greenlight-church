@@ -16,11 +16,13 @@ const photos = [
 ];
 
 const marqueeColors = ["red", "yellow", "green"];
+
+const isStreaming = false
 ---
 
 <Layout>
     <main>
-        <!-- <iframe
+      {isStreaming && <iframe
             width="560"
             height="315"
             src="https://www.youtube.com/embed/O3aYaF2P20I?si=ZqV55aofQYYbpVhR"
@@ -29,8 +31,7 @@ const marqueeColors = ["red", "yellow", "green"];
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen>
-        </iframe> -->
-
+        </iframe>}
 
         <p class="intro-copy">
             <span class="intro-line" style="--line-index: 0">
