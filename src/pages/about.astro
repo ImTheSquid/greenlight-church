@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout>
+  <main>
+    <h1 class="intro-copy">What is <span class="green">Green Light</span>?</h1>
+    <p>hwyeyeeyye</p>
+    <p>sljkdf</p>
+  </main>
+</Layout>
+
+<style>
+  main {
+      min-block-size: 100dvh;
+      padding-block: var(--space-intro-start)
+          calc(var(--marquee-block-size) + var(--space-intro-start));
+      padding-inline: var(--space-page);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-page);
+  }
+  .intro-copy {
+      max-inline-size: 24ch;
+      margin: 0;
+      font-size: var(--type-message);
+      font-weight: 500;
+      line-height: var(--leading-message);
+      letter-spacing: var(--tracking-message);
+      overflow-wrap: break-word;
+      font-feature-settings:
+          "dlig" on,
+          "ss02" on,
+          "ss05" on,
+          "ss06" on,
+          "ss08" on,
+          "ss09" on;
+  }
+</style>
