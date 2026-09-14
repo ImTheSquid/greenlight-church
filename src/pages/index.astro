@@ -20,7 +20,7 @@ const marqueeColors = ["red", "yellow", "green"];
 
 <Layout>
     <main>
-        <iframe
+        <!-- <iframe
             width="560"
             height="315"
             src="https://www.youtube.com/embed/O3aYaF2P20I?si=ZqV55aofQYYbpVhR"
@@ -29,7 +29,7 @@ const marqueeColors = ["red", "yellow", "green"];
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen>
-        </iframe>
+        </iframe> -->
 
 
         <p class="intro-copy">
@@ -54,6 +54,14 @@ const marqueeColors = ["red", "yellow", "green"];
                     >.</span
                 >
             </span>
+        </p>
+        <p class="archives-link">
+            <a
+                class="archives-link__anchor"
+                href="https://www.youtube.com/@GreenLightDotChurch"
+                target="_blank"
+                >View the archives</a
+            >
         </p>
 
         <section class="filmstrip" aria-labelledby="filmstrip-title">
@@ -137,6 +145,27 @@ const marqueeColors = ["red", "yellow", "green"];
     .intro-copy strong {
         white-space: nowrap;
         font-weight: inherit;
+    }
+
+    .archives-link {
+        margin: var(--space-page) 0 0;
+        font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+    }
+
+    .archives-link__anchor {
+        color: var(--color-text);
+        text-underline-offset: 0.2em;
+        transition: color 180ms ease;
+    }
+
+    .archives-link__anchor:hover,
+    .archives-link__anchor:focus-visible {
+        color: var(--color-signal-green);
+    }
+
+    .archives-link__anchor:focus-visible {
+        outline: 2px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
     }
 
     .intro-line {
@@ -287,6 +316,10 @@ const marqueeColors = ["red", "yellow", "green"];
     }
 
     @media (prefers-reduced-motion: reduce) {
+        .archives-link__anchor {
+            transition: none;
+        }
+
         .marquee__track {
             animation: none;
             will-change: auto;
