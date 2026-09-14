@@ -2,10 +2,12 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
+import { wallTimeToInstant } from "../lib/datetime"
 
 const marqueeColors = ["red", "yellow", "green"]
 
-const date = "2026-09-26T04:00:00Z"
+const date = "2026-09-25T21:00:00"
+const showDate = wallTimeToInstant(date, "America/Los_Angeles")
 
 const isStreaming = false
 ---
@@ -58,7 +60,7 @@ const isStreaming = false
 
         <Gallery />
 
-        {!isStreaming && <Countdown date={date} />}
+        {!isStreaming && <Countdown date={showDate.toISOString()} />}
     </main>
 
     <aside class="marquee" aria-hidden="true">
