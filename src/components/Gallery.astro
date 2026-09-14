@@ -1,0 +1,99 @@
+---
+import { Image } from "astro:assets"
+import camera from "../assets/home/camera.jpeg"
+import floor from "../assets/home/floor.jpeg"
+import mff from "../assets/home/mff.jpeg"
+import peace from "../assets/home/peace.jpeg"
+import sofa from "../assets/home/sofa.jpeg"
+
+const photos = [
+	{ image: camera, alt: "A camera" },
+	{ image: peace, alt: "A peaceful scene" },
+	{ image: floor, alt: "A view of the floor" },
+	{ image: mff, alt: "Green Light photo" },
+	{ image: sofa, alt: "A sofa" },
+]
+---
+
+<section class="filmstrip">
+    <div class="filmstrip__scroller" tabindex="0">
+        <div class="filmstrip__track">
+            {
+                photos.map(({ image, alt }) => (
+                    <figure class="filmstrip__frame">
+                        <Image
+                            src={image}
+                            alt={alt}
+                            sizes="(max-width: 640px) 72vw, 28vw"
+                            widths={[480, 720, 960]}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </figure>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+
+    .filmstrip h2 {
+        margin: 0 0 1rem;
+        color: var(--color-signal-yellow);
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .filmstrip__scroller {
+        margin-inline: calc(var(--space-page) * -1);
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-padding-inline: var(--space-page);
+        scroll-snap-type: inline mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-signal-red) transparent;
+    }
+
+    .filmstrip__scroller:focus-visible {
+        outline: 2px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
+    }
+
+    .filmstrip__track {
+        display: flex;
+        gap: clamp(0.75rem, 1.5vw, 1.5rem);
+        inline-size: max-content;
+        padding-inline: var(--space-page);
+    }
+
+    .filmstrip__frame {
+        flex: 0 0 auto;
+        block-size: clamp(15rem, 32vw, 31rem);
+        margin: 0;
+        overflow: hidden;
+        scroll-snap-align: start;
+        background: #161616;
+    }
+
+    .filmstrip__frame img {
+        display: block;
+        inline-size: auto;
+        block-size: 100%;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .filmstrip__frame img {
+            filter: saturate(0.875);
+            transition: filter 180ms ease;
+        }
+
+        .filmstrip__frame:hover img,
+        .filmstrip__frame:focus-within img {
+            filter: saturate(1.1);
+        }
+    }
+</style>
