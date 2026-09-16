@@ -23,8 +23,12 @@ const showDateLabel = new Intl.DateTimeFormat("en-US", {
 }).format(showDate)
 
 const liveVideo = await getLiveVideo()
-const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS
-const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS
+// Temporary: the embed window anchors to the Wednesday before the show's
+// Friday slot, at the same wall-clock times (revert to showDate.getTime()).
+const WINDOW_ANCHOR_SHIFT_MS = 2 * 24 * 60 * 60 * 1000
+const windowAnchor = showDate.getTime() - WINDOW_ANCHOR_SHIFT_MS
+const windowStart = windowAnchor - SHOW_START_OFFSET_MS
+const windowEnd = windowAnchor + SHOW_END_OFFSET_MS
 const isStreaming =
 	liveVideo !== null &&
 	windowStart <= now.getTime() &&
