@@ -1,5 +1,5 @@
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
-const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
+const YOUTUBE_API_KEY = import.meta.env.YOUTUBE_API_KEY;
+const YOUTUBE_CHANNEL_ID = import.meta.env.YOUTUBE_CHANNEL_ID;
 
 export async function getLiveVideo(): Promise<{ videoId: string } | null> {
   if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) return null;
