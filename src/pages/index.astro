@@ -2,7 +2,12 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
-import { nextShowDate, SHOW_END_OFFSET_MS } from "../lib/datetime"
+import {
+	nextShowDate,
+	SHOW_END_OFFSET_MS,
+	SHOW_WALL_TIME,
+	wallTimeToInstant,
+} from "../lib/datetime"
 import { getLiveVideo } from "../lib/youtube"
 import cancelledDates from "../data/cancelled.json"
 
@@ -23,10 +28,15 @@ const showDateLabel = new Intl.DateTimeFormat("en-US", {
 }).format(showDate)
 
 const liveVideo = await getLiveVideo()
-// Temporary: the embed window anchors to the Wednesday before the show's
-// Friday slot, at the same wall-clock times (revert to showDate.getTime()).
-const WINDOW_ANCHOR_SHIFT_MS = 2 * 24 * 60 * 60 * 1000
-const windowAnchor = showDate.getTime() - WINDOW_ANCHOR_SHIFT_MS
+// TEMPORARY: the embed gate is open for today only (PT), same window shape
+// as the Friday gate. Revert to showDate.getTime() once testing is done.
+const todayInPT = new Intl.DateTimeFormat("en-CA", {
+	timeZone: "America/Los_Angeles",
+}).format(now) // YYYY-MM-DD
+const windowAnchor = wallTimeToInstant(
+	`${todayInPT}T${SHOW_WALL_TIME}`,
+	"America/Los_Angeles",
+).getTime()
 const windowStart = windowAnchor - SHOW_START_OFFSET_MS
 const windowEnd = windowAnchor + SHOW_END_OFFSET_MS
 const isStreaming =
