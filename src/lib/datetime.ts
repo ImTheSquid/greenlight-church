@@ -37,7 +37,7 @@ function wallTimeAsUtc(date: number, timeZone: string): number {
   );
 }
 
-export const SHOW_WALL_TIME = "21:00:00";
+const SHOW_WALL_TIME = "21:00:00";
 const SHOW_TIME_ZONE = "America/Los_Angeles";
 export const SHOW_END_OFFSET_MS = 6 * 3_600_000;
 
