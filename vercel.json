@@ -2,9 +2,11 @@
 	"crons": [
 		{ "path": "/api/revalidate", "schedule": "30 3 * 3-10 6" },
 		{ "path": "/api/revalidate", "schedule": "50 3 * 3-10 6" },
+		{ "path": "/api/revalidate", "schedule": "0 4 * 3-10 6" },
 		{ "path": "/api/revalidate", "schedule": "0 10 * 3-10 6" },
 		{ "path": "/api/revalidate", "schedule": "30 4 * 1,2,11,12 6" },
 		{ "path": "/api/revalidate", "schedule": "50 4 * 1,2,11,12 6" },
+		{ "path": "/api/revalidate", "schedule": "0 5 * 1,2,11,12 6" },
 		{ "path": "/api/revalidate", "schedule": "0 11 * 1,2,11,12 6" }
 	]
 }
