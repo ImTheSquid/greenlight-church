@@ -2,13 +2,19 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
-import { nextShowDate } from "../lib/datetime"
+import { nextShowDate, SHOW_END_OFFSET_MS } from "../lib/datetime"
+import { getLiveVideo } from "../lib/youtube"
 import cancelledDates from "../data/cancelled.json"
+
+export const prerender = false
 
 const marqueeColors = ["red", "yellow", "green"]
 
 const NEXT_SHOW_ANCHOR = "2026-07-31"
-const showDate = nextShowDate(new Date(), NEXT_SHOW_ANCHOR, cancelledDates)
+const SHOW_START_OFFSET_MS = 30 * 60_000
+
+const now = new Date()
+const showDate = nextShowDate(now, NEXT_SHOW_ANCHOR, cancelledDates)
 
 const showDateLabel = new Intl.DateTimeFormat("en-US", {
 	month: "long",
@@ -16,15 +22,25 @@ const showDateLabel = new Intl.DateTimeFormat("en-US", {
 	timeZone: "America/Los_Angeles",
 }).format(showDate)
 
-const isStreaming = false
+const liveVideo = await getLiveVideo()
+const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS
+const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS
+const isStreaming =
+	liveVideo !== null &&
+	windowStart <= now.getTime() &&
+	now.getTime() < windowEnd
+const embedSrc =
+	isStreaming && liveVideo
+		? `https://www.youtube.com/embed/${liveVideo.videoId}`
+		: null
 ---
 
 <Layout>
     <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
-      {isStreaming && <iframe
+      {embedSrc && <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/O3aYaF2P20I?si=ZqV55aofQYYbpVhR"
+            src={embedSrc}
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
