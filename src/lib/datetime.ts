@@ -39,9 +39,7 @@ function wallTimeAsUtc(date: number, timeZone: string): number {
 
 export const SHOW_WALL_TIME = "21:00:00";
 const SHOW_TIME_ZONE = "America/Los_Angeles";
-// TEMPORARY test: close the embed window and flip the date 40 min after the
-// 21:00 PT anchor (9:40pm PT). Revert to 6 * 3_600_000 (3am PT).
-export const SHOW_END_OFFSET_MS = 40 * 60_000;
+export const SHOW_END_OFFSET_MS = 6 * 3_600_000;
 
 export function nextShowDate(
   now: Date,
