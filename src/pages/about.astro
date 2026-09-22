@@ -1,14 +1,16 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import AboutNumber from "../components/AboutNumber.astro"
-import aboutBlur from "../assets/about/blur.jpg"
-import { showDateLabel } from "../lib/datetime"
+import Layout from "../layouts/Layout.astro";
+import AboutNumber from "../components/AboutNumber.astro";
+import aboutBlur from "../assets/about/blur.jpg";
+import { showDateLabel } from "../lib/datetime";
 ---
 
 <Layout>
     <main>
         <nav class="site-nav" aria-label="Site">
-            <a class="site-nav__link" href="/">Home</a>
+            <a class="site-nav__link" href="/">
+                Home
+            </a>
         </nav>
         <div class="split">
             <img
@@ -19,31 +21,115 @@ import { showDateLabel } from "../lib/datetime"
                 alt=""
             />
             <div class="split__content">
-                <h1>What is <strong class="green">Green&nbsp;Light</strong>?</h1>
+                <h1>
+                    What is <strong class="green">Green&nbsp;Light</strong>?
+                </h1>
                 <div class="prose">
                     <p>
-                      <span class="green">Green Light</span> is a multi-genre radio show highlighting DJs, musicians, artists, actors, stand-up comedians, musical theater kids, and circus performers, streaming every 2 weeks.
+                        <span class="green">Green Light</span> is a multi-genre
+                        radio show highlighting DJs, musicians, artists, actors,
+                        stand-up comedians, musical theater kids, and circus
+                        performers, streaming every 2 weeks.
                     </p>
                     <p>
-                        Artists perform their work in front of a small audience of friends in an apartment in San Francisco. Performances are livestreamed & archived on the internet.
+                        Artists perform their work in front of a small audience
+                        of friends in an apartment in San Francisco.
+                        Performances are livestreamed & archived on the
+                        internet.
                     </p>
                     <p>
-                      <span><a class="link-yellow" href="https://jackhogan.dev" target="_blank">Jack</a></span> & <span><a class="link-red" href="https://matthewstanciu.com" target="_blank">Matthew</a></span> started it because we want a recurring space to perform live music in a low-stakes & supportive environment, for friends both IRL and remote, and want to hear what others have to share too.
+                        <span>
+                            <a
+                                class="link-yellow"
+                                href="https://jackhogan.me"
+                                target="_blank"
+                            >
+                                Jack
+                            </a>
+                        </span>{" "}
+                        &{" "}
+                        <span>
+                            <a
+                                class="link-red"
+                                href="https://matthewstanciu.com"
+                                target="_blank"
+                            >
+                                Matthew
+                            </a>
+                        </span>{" "}
+                        started it because we want a recurring space to perform
+                        live music in a low-stakes & supportive environment, for
+                        friends both IRL and remote, and want to hear what
+                        others have to share too.
                     </p>
                     <p>Green Light has three guiding principles:</p>
-                    <h2 class="green"><AboutNumber number={1} color="green" /> SHOW UP</h2>
-                    <p>If you are a creative, this is your time to get your reps in. The next performance is always around the corner, and your friends are looking forward to seeing you, so you have to show up!</p>
-                    <p>If you're a professional, this is a great time to practice for your upcoming gigs: a real performance with a real audience, in a low-stakes environment.</p>
-                    <p>If your friends are playing, show up and support them!</p>
-                    <h2 class="yellow"><AboutNumber number={2} color="yellow" /> PLAY ANYTHING</h2>
-                    <p>The audience is here for you & the floor is yours. Do whatever you want: try new things & experiment, or just do whatever makes you feel good—the audience does not expect anything else. If it sucks it doesn't matter because the audience is your friends, and every performance sounds great when your friend is the performer. But it won't suck, you'll do great.</p>
-                    <h2 class="red"><AboutNumber number={3} color="red" /> GET A URL</h2>
-                    <p>Every performance is livestreamed & archived on the internet. The goal is not necessarily for anyone to watch it; it's just to have a link to your work that you can share and look back on in the future, or not. If people watch it that's great too!</p>
+                    <h2 class="green">
+                        <AboutNumber number={1} color="green" /> SHOW UP
+                    </h2>
+                    <p>
+                        If you are a creative, this is your time to get your
+                        reps in. The next performance is always around the
+                        corner, and your friends are looking forward to seeing
+                        you, so you have to show up!
+                    </p>
+                    <p>
+                        If you're a professional, this is a great time to
+                        practice for your upcoming gigs: a real performance with
+                        a real audience, in a low-stakes environment.
+                    </p>
+                    <p>
+                        If your friends are playing, show up and support them!
+                    </p>
+                    <h2 class="yellow">
+                        <AboutNumber number={2} color="yellow" /> PLAY ANYTHING
+                    </h2>
+                    <p>
+                        The audience is here for you & the floor is yours. Do
+                        whatever you want: try new things & experiment, or just
+                        do whatever makes you feel good—the audience does not
+                        expect anything else. If it sucks it doesn't matter
+                        because the audience is your friends, and every
+                        performance sounds great when your friend is the
+                        performer. But it won't suck, you'll do great.
+                    </p>
+                    <h2 class="red">
+                        <AboutNumber number={3} color="red" /> GET A URL
+                    </h2>
+                    <p>
+                        Every performance is livestreamed & archived on the
+                        internet. The goal is not necessarily for anyone to
+                        watch it; it's just to have a link to your work that you
+                        can share and look back on in the future, or not. If
+                        people watch it that's great too!
+                    </p>
                     <hr />
-                    <p>Green Light streams on <span><a class="link-green" href="https://www.youtube.com/@GreenLightDotChurch" target="_blank">YouTube</a></span> every other Friday at 9pm PT, next on <strong class="green"
-                        >{showDateLabel}</strong
-                    >.</p>
-                    <p>If we can answer any questions or you want to say hi, email <span><a class="link-green" href="mailto:info@greenlight.church">info@greenlight.church</a></span> :)</p>
+                    <p>
+                        Green Light streams on{" "}
+                        <span>
+                            <a
+                                class="link-green"
+                                href="https://www.youtube.com/@GreenLightDotChurch"
+                                target="_blank"
+                            >
+                                YouTube
+                            </a>
+                        </span>{" "}
+                        every other Friday at 9pm PT, next on{" "}
+                        <strong class="green">{showDateLabel}</strong>.
+                    </p>
+                    <p>
+                        If we can answer any questions or you want to say hi,
+                        email{" "}
+                        <span>
+                            <a
+                                class="link-green"
+                                href="mailto:info@greenlight.church"
+                            >
+                                info@greenlight.church
+                            </a>
+                        </span>{" "}
+                        :)
+                    </p>
                 </div>
             </div>
         </div>
@@ -160,7 +246,9 @@ import { showDateLabel } from "../lib/datetime"
     @media (min-width: 48em) {
         .split {
             inline-size: 100vw;
-            margin-inline: calc(-1 * (var(--space-page) + (100vw - min(72rem, 100vw)) / 2));
+            margin-inline: calc(
+                -1 * (var(--space-page) + (100vw - min(72rem, 100vw)) / 2)
+            );
         }
 
         .split__content {
@@ -175,9 +263,10 @@ import { showDateLabel } from "../lib/datetime"
             block-size: 100svh;
         }
 
-
-        h2 + p, h2 + p + p, h2 + p + p + p {
-          margin-left: 3rem;
+        h2 + p,
+        h2 + p + p,
+        h2 + p + p + p {
+            margin-left: 3rem;
         }
     }
 
@@ -191,7 +280,9 @@ import { showDateLabel } from "../lib/datetime"
         .split {
             flex-direction: column;
             inline-size: 100vw;
-            margin-inline: calc(-1 * (var(--space-page) + (100vw - min(72rem, 100vw)) / 2));
+            margin-inline: calc(
+                -1 * (var(--space-page) + (100vw - min(72rem, 100vw)) / 2)
+            );
             flex: 1 1 auto;
             min-block-size: 0;
         }
@@ -295,7 +386,7 @@ import { showDateLabel } from "../lib/datetime"
         }
 
         main {
-          padding-block-end: 0;
+            padding-block-end: 0;
         }
     }
 
