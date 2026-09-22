@@ -1,3 +1,12 @@
+import cancelledDates from "../data/cancelled.json";
+
+export const NEXT_SHOW_ANCHOR = "2026-07-31";
+
+const SHOW_WALL_TIME = "21:00:00";
+const SHOW_TIME_ZONE = "America/Los_Angeles";
+export const SHOW_START_OFFSET_MS = 30 * 60_000;
+export const SHOW_END_OFFSET_MS = 6 * 3_600_000;
+
 export function wallTimeToInstant(naive: string, timeZone: string): Date {
   const naiveMs = new Date(naive + "Z").getTime();
   let guess = naiveMs;
@@ -37,10 +46,6 @@ function wallTimeAsUtc(date: number, timeZone: string): number {
   );
 }
 
-const SHOW_WALL_TIME = "21:00:00";
-const SHOW_TIME_ZONE = "America/Los_Angeles";
-export const SHOW_END_OFFSET_MS = 6 * 3_600_000;
-
 export function nextShowDate(
   now: Date,
   anchor: string,
@@ -64,3 +69,12 @@ export function nextShowDate(
 
   throw new Error("no future show date within cadence range");
 }
+
+const now = new Date();
+export const showDate = nextShowDate(now, NEXT_SHOW_ANCHOR, cancelledDates);
+
+export const showDateLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  timeZone: "America/Los_Angeles",
+}).format(showDate);

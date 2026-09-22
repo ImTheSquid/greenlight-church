@@ -33,6 +33,22 @@ const image = "/opengraph-image.png"
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={image} />
         <Font cssVariable="--font-display" preload />
+        <script is:inline>
+            // skip entrance animations only when arriving from another page on this site
+            const referrerUrl = document.referrer
+                ? new URL(document.referrer)
+                : null
+            const isInternalNav =
+                referrerUrl !== null &&
+                referrerUrl.origin === location.origin &&
+                referrerUrl.pathname !== "/" &&
+                referrerUrl.pathname !== "/index.html" &&
+                performance.getEntriesByType("navigation")[0]?.type !==
+                    "reload"
+            if (isInternalNav) {
+                document.documentElement.dataset.internalNav = "true"
+            }
+        </script>
     </head>
     <body>
         <slot />
@@ -57,6 +73,7 @@ const image = "/opengraph-image.png"
         --space-marquee-gap: clamp(1.5rem, 3vw, 3rem);
         --marquee-block-size: clamp(3.5rem, 6vw, 5.5rem);
         --duration-marquee: 24s;
+        color-scheme: dark;
     }
 
     *,
@@ -68,6 +85,7 @@ const image = "/opengraph-image.png"
     html {
         background: var(--color-canvas);
         overflow-x: clip;
+        font-synthesis-weight: none;
     }
 
     body {
@@ -77,6 +95,17 @@ const image = "/opengraph-image.png"
         background: var(--color-canvas);
         color: var(--color-text);
         font-family: var(--font-display);
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 500;
+      font-feature-settings:
+          "dlig" on,
+          "ss02" on,
+          "ss05" on,
+          "ss06" on,
+          "ss08" on,
+          "ss09" on;
     }
 
     .red {

@@ -1,0 +1,41 @@
+---
+interface Props {
+    number: number
+    color: "green" | "yellow" | "red"
+}
+
+const { number, color = "yellow" } = Astro.props
+
+const circleColor: Record<Props["color"], string> = {
+    green: "var(--color-signal-green)",
+    yellow: "var(--color-signal-yellow)",
+    red: "var(--color-signal-red)",
+}
+---
+
+<span
+    class="about-number"
+    style={`--circle-color: ${circleColor[color]}`}
+    aria-hidden="true"
+>
+    {number}
+</span>
+
+<style>
+    .about-number {
+        flex-shrink: 0;
+        text-align: center;
+        flex: 0 0 auto;
+        inline-size: 1.75rlh;
+        block-size: 1.75rlh;
+        aspect-ratio: 1 / 1;
+        border: 2px solid currentColor;
+        border-radius: 999px;
+        color: var(--circle-color);
+        font-size: clamp(0.8rem, 0.95vw, 0.9rem);
+        font-weight: 500;
+        position: relative;
+        translate: 0 0.1rlh;
+        line-height: 1.375rlh;
+    }
+</style>

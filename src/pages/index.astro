@@ -2,26 +2,14 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
-import { nextShowDate, SHOW_END_OFFSET_MS } from "../lib/datetime"
+import { showDate, showDateLabel, SHOW_START_OFFSET_MS, SHOW_END_OFFSET_MS, NEXT_SHOW_ANCHOR } from "../lib/datetime"
 import { getLiveVideo } from "../lib/youtube"
-import cancelledDates from "../data/cancelled.json"
 
 export const prerender = false
 
 const marqueeColors = ["red", "yellow", "green"]
 
-const NEXT_SHOW_ANCHOR = "2026-07-31"
-const SHOW_START_OFFSET_MS = 30 * 60_000
-
-const now = new Date()
-const showDate = nextShowDate(now, NEXT_SHOW_ANCHOR, cancelledDates)
-
-const showDateLabel = new Intl.DateTimeFormat("en-US", {
-	month: "long",
-	day: "numeric",
-	timeZone: "America/Los_Angeles",
-}).format(showDate)
-
+const now = new Date();
 const liveVideo = await getLiveVideo()
 const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS
 const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS
@@ -37,6 +25,10 @@ const embedSrc =
 
 <Layout>
     <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
+        <nav class="site-nav" aria-label="Site">
+            <a class="site-nav__link" href="/about/">About</a>
+        </nav>
+
       {embedSrc && <iframe
             width="560"
             height="315"
@@ -116,6 +108,39 @@ const embedSrc =
         gap: var(--space-page);
     }
 
+    .site-nav {
+        position: absolute;
+        inset-block-start: var(--space-page);
+        inset-inline-end: var(--space-page);
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    @media (max-width: 32em) {
+        .site-nav {
+            position: static;
+        }
+    }
+
+    .site-nav__link {
+        color: var(--color-text);
+        transition: color 180ms ease;
+        font-size: 0.875rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-underline-offset: 0.4em;
+    }
+
+    .site-nav__link:hover {
+        color: var(--color-signal-green);
+    }
+
+    .site-nav__link:focus-visible {
+        color: var(--color-signal-green);
+        outline: 2.5px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
+    }
+
     iframe {
         width: 100%;
         height: auto;
@@ -158,10 +183,20 @@ const embedSrc =
     }
 
     @media (prefers-reduced-motion: no-preference) {
-        .archives-link {
+        .archives-link,
+        .site-nav {
             animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both fade-in;
             animation-delay: calc(5 * 180ms);
         }
+    }
+
+    html[data-internal-nav] .intro-line__text {
+        transform: none;
+    }
+
+    html[data-internal-nav] .archives-link,
+    html[data-internal-nav] .site-nav {
+        animation: none;
     }
 
     @keyframes fade-in {
@@ -169,13 +204,14 @@ const embedSrc =
       to { opacity: 1; }
     }
 
-    .archives-link__anchor {
-        color: var(--color-text);
-        text-underline-offset: 0.4em;
-        text-decoration: none;
-        padding: 0.75rem 1.25rem 1rem;
-        border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
-        transition: color 180ms ease;
+        .archives-link__anchor {
+            color: var(--color-text);
+            font-weight: 500;
+            text-underline-offset: 0.4em;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem 1rem;
+            border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
+            transition: color 180ms ease;
 
         &::after {
           content: '→';
@@ -278,7 +314,12 @@ const embedSrc =
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .archives-link__anchor {
+        .intro-line__text {
+            transform: none;
+        }
+
+        .archives-link__anchor,
+        .site-nav__link {
             transition: none;
         }
 
@@ -317,9 +358,13 @@ const embedSrc =
         }
     }
 
+    const isInternalNav =
+        document.documentElement.dataset.internalNav === "true"
+
     if (
         introCopy &&
         archivesLink &&
+        !isInternalNav &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
         requestAnimationFrame(() => {

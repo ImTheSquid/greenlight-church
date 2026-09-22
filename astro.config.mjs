@@ -25,6 +25,12 @@ export default defineConfig({
             display: "swap",
             src: ["./src/assets/fonts/AcidGrotesk-Medium.woff2"],
           },
+          {
+            weight: 400,
+            style: "normal",
+            display: "swap",
+            src: ["./src/assets/fonts/AcidGrotesk-Regular.woff2"],
+          },
         ],
       },
     },
