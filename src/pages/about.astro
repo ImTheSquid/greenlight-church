@@ -193,6 +193,25 @@ import { showDateLabel } from "../lib/datetime";
         padding-inline: var(--space-page);
     }
 
+    h2 {
+        margin: 0.75rem 0 0 0;
+        display: flex;
+        align-items: center;
+        gap: clamp(0.6rem, 1vw, 0.85rem);
+        font-size: clamp(1.375rem, 2vw, 1.75rem);
+        overflow-wrap: break-word;
+    }
+
+    hr {
+        border: 0;
+        margin-inline: 0;
+        inline-size: 40%;
+        block-size: 2px;
+        background: var(--color-signal-yellow);
+        margin: 0 auto;
+        margin-block: 1rem;
+    }
+
     .split {
         display: flex;
         flex-direction: column;
@@ -348,6 +367,14 @@ import { showDateLabel } from "../lib/datetime";
             inline-size: min(40%, 30rem);
             block-size: auto;
         }
+
+        h2 {
+          margin: 1.75rem 0 1rem 0;
+        }
+
+        hr {
+          margin-block: 2.5rem;
+        }
     }
 
     h1 {
@@ -360,15 +387,6 @@ import { showDateLabel } from "../lib/datetime";
 
     h1 strong {
         font-weight: inherit;
-    }
-
-    h2 {
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: clamp(0.6rem, 1vw, 0.85rem);
-        font-size: clamp(1.375rem, 2vw, 1.75rem);
-        overflow-wrap: break-word;
     }
 
     .prose {
@@ -394,7 +412,7 @@ import { showDateLabel } from "../lib/datetime";
     p {
         margin: 0;
         color: var(--color-text);
-        font-size: clamp(1rem, 1.25vw, 1.125rem);
+        font-size: 1.25rem;
         line-height: 1.55;
         letter-spacing: normal;
         text-wrap: pretty;
@@ -415,16 +433,6 @@ import { showDateLabel } from "../lib/datetime";
         color: var(--link-hover, var(--color-signal-yellow));
         outline: 2.5px solid var(--link-hover, var(--color-signal-yellow));
         outline-offset: 0.5rem;
-    }
-
-    hr {
-        border: 0;
-        margin-inline: 0;
-        inline-size: 40%;
-        block-size: 2px;
-        background: var(--color-signal-yellow);
-        margin: 0 auto;
-        margin-block: 1rem;
     }
 
     .link-yellow {

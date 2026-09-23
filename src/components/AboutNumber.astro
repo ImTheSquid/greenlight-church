@@ -35,7 +35,13 @@ const circleColor: Record<Props["color"], string> = {
         font-size: clamp(0.8rem, 0.95vw, 0.9rem);
         font-weight: 500;
         position: relative;
-        translate: 0 0.1rlh;
+        translate: 0 0.15rlh;
         line-height: 1.375rlh;
+    }
+
+    @media (min-width: 100em) {
+      .about-number {
+        translate: 0 0.2rlh;
+      }
     }
 </style>
