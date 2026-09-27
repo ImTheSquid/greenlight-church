@@ -248,18 +248,25 @@ const embedSrc =
 
     /*
         Progressive enhancement: the headline is hidden only when we have
-        motion AND a `scripting` feature that reports scripting available, and
-        is visible by default otherwise. Previously the hide was unconditional
-        and only `scripting: none` rescued it, so any engine that does not
-        implement the `scripting` feature at all matched neither branch and
-        stranded the headline off-screen with no way back.
+        motion AND scripting is available, and is visible by default otherwise.
+        Previously the hide was unconditional and only `scripting: none`
+        rescued it, so any engine that does not implement the `scripting`
+        feature at all matched neither branch and stranded the headline
+        off-screen with no way back.
+
+        Note the parentheses around `not (scripting: none)`. `scripting` accepts
+        only `none | initial-only | enabled` -- there is no `no-preference`
+        value for it, and using one silently fails to match and disables the
+        whole gate. And a bare `not (...)` is not a valid term inside an `and`
+        chain, so it has to be parenthesised to combine.
 
         This does NOT cover the script throwing or `astro:page-load` never
-        firing -- `scripting: no-preference` means available, not successful.
-        Closing that would need the reveal to not depend on the class, which
-        would in turn animate on internal nav, so it is left as is.
+        firing -- the gate only proves scripting is available, not that our
+        script succeeded. Closing that would mean the reveal stops depending on
+        the class, which would then also animate on internal nav, so it is left
+        as is.
     */
-    @media (prefers-reduced-motion: no-preference) and (scripting: no-preference) {
+    @media (prefers-reduced-motion: no-preference) and (not (scripting: none)) {
         .intro-line__text {
             transform: translateY(105%);
         }
