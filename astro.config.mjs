@@ -5,6 +5,10 @@ import vercel from "@astrojs/vercel";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "load",
+  },
   adapter: vercel({
     isr: {
       bypassToken: process.env.ISR_BYPASS_TOKEN,
