@@ -9,6 +9,14 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "load",
   },
+  // Ship page CSS inside the HTML <head> instead of as a separate <link>.
+  // Safari 18 can complete a view transition without applying the incoming
+  // page's stylesheet (withastro/astro#15727), which renders the page
+  // unstyled. Inlining removes the stylesheet fetch, so there is no
+  // stylesheet left to drop. ~6.5kB per page.
+  build: {
+    inlineStylesheets: "always",
+  },
   adapter: vercel({
     isr: {
       bypassToken: process.env.ISR_BYPASS_TOKEN,

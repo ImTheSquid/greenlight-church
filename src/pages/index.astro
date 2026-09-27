@@ -30,6 +30,68 @@ const embedSrc =
 ---
 
 <Layout>
+    <!--
+        First-paint skeleton. Inline so it ships inside the HTML in dev AND
+        production, rather than waiting on a stylesheet. Safari 18 can finish a
+        view transition without applying the incoming page's CSS
+        (withastro/astro#15727); without this the home page paints as unstyled
+        16px text with a raw default-sized YouTube iframe.
+
+        Deliberately duplicated from Layout.astro's global block and the main
+        <style> below, and deliberately hardcoded rather than using custom
+        properties: when :root is what got dropped, var() resolves to nothing.
+        Keep in sync when changing these values.
+
+        Contains NO hidden-by-default state on purpose. Rules like
+        `transform: translateY(105%)` or `overflow: hidden` would survive here
+        while the real stylesheet never lands, stranding the headline off-screen
+        instead of merely unstyled.
+    -->
+    <style is:inline>
+        html,
+        body {
+            background: #000000;
+            color: #f4f3ef;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-display), system-ui, sans-serif;
+        }
+
+        main {
+            min-block-size: 100dvh;
+            padding-block: clamp(2rem, 7.5vw, 6rem)
+                calc(clamp(3.5rem, 6vw, 5.5rem) + clamp(2rem, 7.5vw, 6rem));
+            padding-inline: clamp(1rem, 3vw, 3rem);
+        }
+
+        .intro-copy {
+            max-inline-size: 24ch;
+            margin: 0;
+            font-size: clamp(2.75rem, 4.4vw, 4rem);
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: -0.035em;
+        }
+
+        .intro-line,
+        .intro-line__text {
+            display: block;
+        }
+
+        .red { color: #d41720; }
+        .yellow { color: #dead0d; }
+        .green { color: #0bc6b9; }
+
+        iframe {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            border: 0;
+        }
+    </style>
+
     <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
         <nav class="site-nav" aria-label="Site">
             <a class="site-nav__link" href="/about/">About</a>
