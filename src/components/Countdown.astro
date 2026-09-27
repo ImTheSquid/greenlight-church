@@ -97,7 +97,9 @@ const { date } = Astro.props
     }
   }
 
-  document.querySelectorAll('.countdown').forEach((el) => {
-    new CountdownTimer(el as HTMLElement);
-  });
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll('.countdown').forEach((el) => {
+      new CountdownTimer(el as HTMLElement);
+    });
+  })
 </script>

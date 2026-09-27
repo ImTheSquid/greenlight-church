@@ -335,9 +335,11 @@ const embedSrc =
 </style>
 
 <script>
-    import cancelledDates from "../data/cancelled.json"
-    import { nextShowDate } from "../lib/datetime"
+import cancelledDates from "../data/cancelled.json"
+import { nextShowDate } from "../lib/datetime"
 
+  document.addEventListener("astro:page-load", (event) => {
+    console.log(event)
     const main = document.querySelector("main")
     const introCopy = document.querySelector(".intro-copy")
     const archivesLink = document.querySelector(".archives-link")
@@ -372,4 +374,5 @@ const embedSrc =
             archivesLink.classList.add("is-revealed")
         })
     }
+  })
 </script>

@@ -1,5 +1,6 @@
 ---
 import { Font } from "astro:assets"
+import { ClientRouter } from "astro:transitions"
 
 const title = "Green Light"
 const description =
@@ -10,6 +11,7 @@ const image = "/opengraph-image.png"
 <!doctype html>
 <html lang="en">
     <head>
+      <ClientRouter />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -34,20 +36,9 @@ const image = "/opengraph-image.png"
         <meta name="twitter:image" content={image} />
         <Font cssVariable="--font-display" preload />
         <script is:inline>
-            // skip entrance animations only when arriving from another page on this site
-            const referrerUrl = document.referrer
-                ? new URL(document.referrer)
-                : null
-            const isInternalNav =
-                referrerUrl !== null &&
-                referrerUrl.origin === location.origin &&
-                referrerUrl.pathname !== "/" &&
-                referrerUrl.pathname !== "/index.html" &&
-                performance.getEntriesByType("navigation")[0]?.type !==
-                    "reload"
-            if (isInternalNav) {
-                document.documentElement.dataset.internalNav = "true"
-            }
+          document.addEventListener("astro:before-swap", (event) => {
+            event.newDocument.documentElement.dataset.internalNav = "true"
+          });
         </script>
     </head>
     <body>
