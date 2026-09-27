@@ -1,15 +1,15 @@
 ---
 interface Props {
-    number: number
-    color: "green" | "yellow" | "red"
+	number: number
+	color: "green" | "yellow" | "red"
 }
 
 const { number, color = "yellow" } = Astro.props
 
 const circleColor: Record<Props["color"], string> = {
-    green: "var(--color-signal-green)",
-    yellow: "var(--color-signal-yellow)",
-    red: "var(--color-signal-red)",
+	green: "var(--color-signal-green)",
+	yellow: "var(--color-signal-yellow)",
+	red: "var(--color-signal-red)",
 }
 ---
 

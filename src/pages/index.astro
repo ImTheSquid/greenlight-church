@@ -2,14 +2,20 @@
 import Layout from "../layouts/Layout.astro"
 import Countdown from "../components/Countdown.astro"
 import Gallery from "../components/Gallery.astro"
-import { showDate, showDateLabel, SHOW_START_OFFSET_MS, SHOW_END_OFFSET_MS, NEXT_SHOW_ANCHOR } from "../lib/datetime"
+import {
+	showDate,
+	showDateLabel,
+	SHOW_START_OFFSET_MS,
+	SHOW_END_OFFSET_MS,
+	NEXT_SHOW_ANCHOR,
+} from "../lib/datetime"
 import { getLiveVideo } from "../lib/youtube"
 
 export const prerender = false
 
 const marqueeColors = ["red", "yellow", "green"]
 
-const now = new Date();
+const now = new Date()
 const liveVideo = await getLiveVideo()
 const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS
 const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS
