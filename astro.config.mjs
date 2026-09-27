@@ -9,6 +9,10 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "load",
   },
+  // paper over safari bug that causes fouc with view transitions
+  build: {
+    inlineStylesheets: "always",
+  },
   adapter: vercel({
     isr: {
       bypassToken: process.env.ISR_BYPASS_TOKEN,
