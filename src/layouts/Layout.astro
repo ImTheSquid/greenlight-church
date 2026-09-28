@@ -108,4 +108,47 @@ const image = "/opengraph-image.png"
     .green {
         color: var(--color-signal-green);
     }
+
+    /*
+     * iOS Safari leaves a black band behind the URL bar after a client-side nav.
+     *
+     * Astro's default cross-fade animates `mix-blend-mode: plus-lighter` on the
+     * root snapshots (see astro/components/viewtransitions.css). That additive
+     * blend puts each full-viewport snapshot in its own blending group, and iOS
+     * frequently fails to tear that group down — it keeps painting the old
+     * page's black canvas across the bottom of the *layout* viewport, which is
+     * the strip that sits under the collapsed URL bar. Desktop Safari and
+     * Chromium don't hit it, so it looks like an iOS-only ghost.
+     *
+     * The whole animation has to be replaced, not just the property: the
+     * `plus-lighter` is declared *inside* @keyframes astroFadeIn/Out, and a
+     * running animation outranks a normal declaration. Setting
+     * `mix-blend-mode: normal` on its own would do nothing.
+     *
+     * Duration and easing match Astro's defaults so the transition still feels
+     * identical. The only difference is the dissolve is a normal cross-fade
+     * rather than an additive one — invisible on a black canvas.
+     *
+     * `:root::` is deliberate: it outranks Astro's bare `::view-transition-*`
+     * selectors, so this wins no matter which order the two stylesheets land in.
+     */
+    @keyframes vt-fade-out {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
+    @keyframes vt-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    :root::view-transition-old(root) {
+        animation: 180ms cubic-bezier(0.76, 0, 0.24, 1) both vt-fade-out;
+        mix-blend-mode: normal;
+    }
+
+    :root::view-transition-new(root) {
+        animation: 180ms cubic-bezier(0.76, 0, 0.24, 1) both vt-fade-in;
+        mix-blend-mode: normal;
+    }
 </style>
