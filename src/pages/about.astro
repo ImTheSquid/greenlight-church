@@ -3,10 +3,11 @@ import Layout from "../layouts/Layout.astro"
 import AboutNumber from "../components/AboutNumber.astro"
 import aboutBlur from "../assets/about/blur.jpg"
 import { showDateLabel } from "../lib/datetime"
+import { fade } from "astro:transitions"
 ---
 
 <Layout>
-    <main>
+    <main transition:name="main" transition:animate={fade({ duration: "0.18s" })}>
         <nav class="site-nav" aria-label="Site">
             <a class="site-nav__link" href="/">
                 Home

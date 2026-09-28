@@ -10,6 +10,7 @@ import {
 	NEXT_SHOW_ANCHOR,
 } from "../lib/datetime"
 import { getLiveVideo } from "../lib/youtube"
+import { fade } from "astro:transitions"
 
 export const prerender = false
 
@@ -30,7 +31,11 @@ const embedSrc =
 ---
 
 <Layout>
-    <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
+    <main
+        data-next-show-anchor={NEXT_SHOW_ANCHOR}
+        transition:name="main"
+        transition:animate={fade({ duration: "0.18s" })}
+    >
         <nav class="site-nav" aria-label="Site">
             <a class="site-nav__link" href="/about/">About</a>
         </nav>
