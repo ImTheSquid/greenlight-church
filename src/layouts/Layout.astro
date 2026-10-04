@@ -1,17 +1,19 @@
 ---
-import { Font } from "astro:assets"
-import { ClientRouter } from "astro:transitions"
+import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
+import Analytics from "@vercel/analytics/astro";
 
-const title = "Green Light"
+const title = "Green Light";
 const description =
-	"Green Light is a multi-genre radio show based in San Francisco."
-const image = "/opengraph-image.png"
+    "Green Light is a multi-genre radio show based in San Francisco.";
+const image = "/opengraph-image.png";
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
-      <ClientRouter />
+        <Analytics />
+        <ClientRouter />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -36,9 +38,9 @@ const image = "/opengraph-image.png"
         <meta name="twitter:image" content={image} />
         <Font cssVariable="--font-display" preload />
         <script is:inline>
-          document.addEventListener("astro:before-swap", (event) => {
-            event.newDocument.documentElement.dataset.internalNav = "true"
-          });
+            document.addEventListener("astro:before-swap", (event) => {
+                event.newDocument.documentElement.dataset.internalNav = "true";
+            });
         </script>
     </head>
     <body>
@@ -88,15 +90,18 @@ const image = "/opengraph-image.png"
         font-family: var(--font-display);
     }
 
-    h1, h2, h3, h4 {
-      font-weight: 500;
-      font-feature-settings:
-          "dlig" on,
-          "ss02" on,
-          "ss05" on,
-          "ss06" on,
-          "ss08" on,
-          "ss09" on;
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-weight: 500;
+        font-feature-settings:
+            "dlig" on,
+            "ss02" on,
+            "ss05" on,
+            "ss06" on,
+            "ss08" on,
+            "ss09" on;
     }
 
     .red {
