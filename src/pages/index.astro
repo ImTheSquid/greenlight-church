@@ -1,41 +1,43 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import Countdown from "../components/Countdown.astro"
-import Gallery from "../components/Gallery.astro"
+import Layout from "../layouts/Layout.astro";
+import Countdown from "../components/Countdown.astro";
+import Gallery from "../components/Gallery.astro";
 import {
-	showDate,
-	showDateLabel,
-	SHOW_START_OFFSET_MS,
-	SHOW_END_OFFSET_MS,
-	NEXT_SHOW_ANCHOR,
-} from "../lib/datetime"
-import { getLiveVideo } from "../lib/youtube"
+    showDate,
+    showDateLabel,
+    SHOW_START_OFFSET_MS,
+    SHOW_END_OFFSET_MS,
+    NEXT_SHOW_ANCHOR,
+} from "../lib/datetime";
+import { getLiveVideo } from "../lib/youtube";
 
-export const prerender = false
+export const prerender = false;
 
-const marqueeColors = ["red", "yellow", "green"]
+const marqueeColors = ["red", "yellow", "green"];
 
-const now = new Date()
-const liveVideo = await getLiveVideo()
-const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS
-const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS
+const now = new Date();
+const liveVideo = await getLiveVideo();
+const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS;
+const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS;
 const isStreaming =
-	liveVideo !== null &&
-	windowStart <= now.getTime() &&
-	now.getTime() < windowEnd
+    liveVideo !== null &&
+    windowStart <= now.getTime() &&
+    now.getTime() < windowEnd;
 const embedSrc =
-	isStreaming && liveVideo
-		? `https://www.youtube.com/embed/${liveVideo.videoId}`
-		: null
+    isStreaming && liveVideo
+        ? `https://www.youtube.com/embed/${liveVideo.videoId}`
+        : null;
 ---
 
 <Layout>
     <main data-next-show-anchor={NEXT_SHOW_ANCHOR}>
         <nav class="site-nav" aria-label="Site">
-            <a class="site-nav__link" href="/about/">About</a>
+            <a class="site-nav__link" href="/about/">
+                About
+            </a>
         </nav>
 
-      {embedSrc && <iframe
+        {embedSrc && <iframe
             width="560"
             height="315"
             src={embedSrc}
@@ -43,30 +45,33 @@ const embedSrc =
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
+            allowfullscreen
+        >
         </iframe>}
 
         <p class="intro-copy">
             <span class="intro-line" style="--line-index: 0">
-                <span class="intro-line__text"
-                    ><strong class="green">Green Light</strong> is a multi-genre radio</span
-                >
+                <span class="intro-line__text">
+                    <strong class="green">Green Light</strong> is a multi-genre
+                    radio
+                </span>
             </span>
             <span class="intro-line" style="--line-index: 1">
-                <span class="intro-line__text"
-                    >show based in <strong class="yellow">San Francisco</strong
-                    >, CA,</span
-                >
+                <span class="intro-line__text">
+                    show based in <strong class="yellow">San Francisco</strong>,
+                    CA,
+                </span>
             </span>
             <span class="intro-line" style="--line-index: 2">
-                <span class="intro-line__text">streaming every other Friday:</span>
+                <span class="intro-line__text">
+                    streaming every other Friday:
+                </span>
             </span>
             <span class="intro-line" style="--line-index: 3">
-                <span class="intro-line__text"
-                    >next at 9PM PT on <strong class="red"
-                        >{showDateLabel}</strong
-                    >.</span
-                >
+                <span class="intro-line__text">
+                    next at 9PM PT on{" "}
+                    <strong class="red">{showDateLabel}</strong>.
+                </span>
             </span>
         </p>
 
@@ -75,8 +80,9 @@ const embedSrc =
                 class="archives-link__anchor"
                 href="https://www.youtube.com/@GreenLightDotChurch"
                 target="_blank"
-                >Watch on YouTube</a
             >
+                Watch on YouTube
+            </a>
         </p>
 
         <Gallery />
@@ -86,19 +92,17 @@ const embedSrc =
 
     <aside class="marquee" aria-hidden="true">
         <div class="marquee__track">
-            {
-                Array.from({ length: 2 }, () => (
-                    <div class="marquee__sequence">
-                        {Array.from({ length: 3 }, () =>
-                            marqueeColors.map((color) => (
-                                <span class={`marquee__label ${color}`}>
-                                    PLAY ANYTHING
-                                </span>
-                            )),
-                        )}
-                    </div>
-                ))
-            }
+            {Array.from({ length: 2 }, () => (
+                <div class="marquee__sequence">
+                    {Array.from({ length: 3 }, () =>
+                        marqueeColors.map((color) => (
+                            <span class={`marquee__label ${color}`}>
+                                PLAY ANYTHING
+                            </span>
+                        )),
+                    )}
+                </div>
+            ))}
         </div>
     </aside>
 </Layout>
@@ -182,8 +186,8 @@ const embedSrc =
     }
 
     .archives-link {
-      display: block;
-        margin:  max(2.5rem, var(--space-page)) 0;
+        display: block;
+        margin: max(2.5rem, var(--space-page)) 0;
         font-size: clamp(1.125rem, 1.5vw, 1.375rem);
         text-transform: uppercase;
     }
@@ -206,22 +210,26 @@ const embedSrc =
     }
 
     @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
-        .archives-link__anchor {
-            color: var(--color-text);
-            font-weight: 500;
-            text-underline-offset: 0.4em;
-            text-decoration: none;
-            padding: 0.75rem 1.25rem 1rem;
-            border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
-            transition: color 180ms ease;
+    .archives-link__anchor {
+        color: var(--color-text);
+        font-weight: 500;
+        text-underline-offset: 0.4em;
+        text-decoration: none;
+        padding: 0.75rem 1.25rem 1rem;
+        border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
+        transition: color 180ms ease;
 
         &::after {
-          content: '→';
-          margin-inline-start: 0.5em;
+            content: "→";
+            margin-inline-start: 0.5em;
         }
     }
 
@@ -332,44 +340,45 @@ const embedSrc =
 </style>
 
 <script>
-import cancelledDates from "../data/cancelled.json"
-import { nextShowDate } from "../lib/datetime"
+    import cancelledDates from "../data/cancelled.json";
+    import { nextShowDate } from "../lib/datetime";
 
-  document.addEventListener("astro:page-load", (event) => {
-    console.log(event)
-    const main = document.querySelector("main")
-    const introCopy = document.querySelector(".intro-copy")
-    const archivesLink = document.querySelector(".archives-link")
-    const showDateLabel = document.querySelector(".intro-line strong.red")
-    const countdown = document.querySelector(".countdown")
+    document.addEventListener("astro:page-load", (event) => {
+        const main = document.querySelector("main");
+        const introCopy = document.querySelector(".intro-copy");
+        const archivesLink = document.querySelector(".archives-link");
+        const showDateLabel = document.querySelector(".intro-line strong.red");
+        const countdown = document.querySelector(".countdown");
 
-    const anchor = main?.dataset.nextShowAnchor
-    if (anchor && showDateLabel && countdown) {
-        const target = nextShowDate(new Date(), anchor, cancelledDates)
-        const baked = new Date(countdown.getAttribute("data-date") ?? "").getTime()
-        if (!Number.isNaN(baked) && baked !== target.getTime()) {
-            showDateLabel.textContent = new Intl.DateTimeFormat("en-US", {
-                month: "long",
-                day: "numeric",
-                timeZone: "America/Los_Angeles",
-            }).format(target)
-            countdown.setAttribute("data-date", target.toISOString())
+        const anchor = main?.dataset.nextShowAnchor;
+        if (anchor && showDateLabel && countdown) {
+            const target = nextShowDate(new Date(), anchor, cancelledDates);
+            const baked = new Date(
+                countdown.getAttribute("data-date") ?? "",
+            ).getTime();
+            if (!Number.isNaN(baked) && baked !== target.getTime()) {
+                showDateLabel.textContent = new Intl.DateTimeFormat("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "America/Los_Angeles",
+                }).format(target);
+                countdown.setAttribute("data-date", target.toISOString());
+            }
         }
-    }
 
-    const isInternalNav =
-        document.documentElement.dataset.internalNav === "true"
+        const isInternalNav =
+            document.documentElement.dataset.internalNav === "true";
 
-    if (
-        introCopy &&
-        archivesLink &&
-        !isInternalNav &&
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-        requestAnimationFrame(() => {
-            introCopy.classList.add("is-revealed")
-            archivesLink.classList.add("is-revealed")
-        })
-    }
-  })
+        if (
+            introCopy &&
+            archivesLink &&
+            !isInternalNav &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+            requestAnimationFrame(() => {
+                introCopy.classList.add("is-revealed");
+                archivesLink.classList.add("is-revealed");
+            });
+        }
+    });
 </script>
