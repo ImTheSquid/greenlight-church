@@ -1,43 +1,46 @@
 ---
-import { Image } from "astro:assets"
-import camera from "../assets/home/camera.jpeg"
-import floor from "../assets/home/floor.jpeg"
-import mff from "../assets/home/mff.jpeg"
-import peace from "../assets/home/peace.jpeg"
-import sofa from "../assets/home/sofa.jpeg"
+import { Image } from "astro:assets";
+import camera from "../assets/home/camera.jpeg";
+import floor from "../assets/home/floor.jpeg";
+import mff from "../assets/home/mff.jpeg";
+import peace from "../assets/home/peace.jpeg";
+import sofa from "../assets/home/sofa.jpeg";
+import guitar from "../assets/home/guitar.jpeg";
+import sarv from "../assets/home/sarv.jpeg";
+import clairelexi from "../assets/home/clairelexi.jpeg";
 
 const photos = [
-	{ image: camera, alt: "A camera" },
-	{ image: peace, alt: "A peaceful scene" },
-	{ image: floor, alt: "A view of the floor" },
-	{ image: mff, alt: "Green Light photo" },
-	{ image: sofa, alt: "A sofa" },
-]
+    { image: camera, alt: "A camera" },
+    { image: peace, alt: "A peaceful scene" },
+    { image: guitar, alt: "A guitar" },
+    { image: floor, alt: "A view of the floor" },
+    { image: sarv, alt: "A guitarist" },
+    { image: mff, alt: "Green Light photo" },
+    { image: clairelexi, alt: "Performers" },
+    { image: sofa, alt: "A sofa" },
+];
 ---
 
 <section class="filmstrip">
     <div class="filmstrip__scroller" tabindex="0">
         <div class="filmstrip__track">
-            {
-                photos.map(({ image, alt }) => (
-                    <figure class="filmstrip__frame">
-                        <Image
-                            src={image}
-                            alt={alt}
-                            sizes="(max-width: 640px) 72vw, 28vw"
-                            widths={[480, 720, 960]}
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </figure>
-                ))
-            }
+            {photos.map(({ image, alt }) => (
+                <figure class="filmstrip__frame">
+                    <Image
+                        src={image}
+                        alt={alt}
+                        sizes="(max-width: 640px) 72vw, 28vw"
+                        widths={[480, 720, 960]}
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </figure>
+            ))}
         </div>
     </div>
 </section>
 
 <style>
-
     .filmstrip h2 {
         margin: 0 0 1rem;
         color: var(--color-signal-yellow);
