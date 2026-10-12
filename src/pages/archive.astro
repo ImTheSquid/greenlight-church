@@ -1,0 +1,581 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { getArchivedShows } from "../lib/youtube"
+
+const shows = await getArchivedShows()
+---
+
+<Layout>
+    <main>
+        <nav class="site-nav" aria-label="Site">
+            <a class="site-nav__link" href="/">Home</a>
+        </nav>
+
+        <header class="archive-header">
+            <h1><span class="green">Green Light</span> Archive</h1>
+        </header>
+
+        {shows.length > 0 ? (
+            <ol class="timeline">
+                {shows.map((show) => (
+                    <li class="timeline__item">
+                        <span class="timeline__marker" aria-hidden="true">
+                            <span class="timeline__marker-text">
+                                {show.number || "GL"}
+                            </span>
+                        </span>
+
+                        <article class="show">
+                            <figure class="show__media">
+                                {show.thumbnailUrl ? (
+                                    <img
+                                        src={show.thumbnailUrl}
+                                        width="1280"
+                                        height="720"
+                                        loading="lazy"
+                                        decoding="async"
+                                        alt=""
+                                    />
+                                ) : (
+                                    <div
+                                        class="show__placeholder"
+                                        aria-hidden="true"
+                                    >
+                                        <span>No image</span>
+                                    </div>
+                                )}
+                            </figure>
+
+                            <div class="show__content">
+                                <h2>{show.title}</h2>
+                                {show.date ? (
+                                    <p class="show__date">{show.date}</p>
+                                ) : null}
+                                <div class="show__actions">
+                                    <a
+                                        class="show__action show__watch"
+                                        href={show.watchUrl}
+                                        target="_blank"
+                                        rel="noopener"
+                                    >
+                                        Watch
+                                    </a>
+                                    <details class="download">
+                                        <summary
+                                            class="show__action download__trigger"
+                                        >
+                                            Download
+                                            <span
+                                                class="download__caret"
+                                                aria-hidden="true"
+                                            >
+                                                ▾
+                                            </span>
+                                        </summary>
+                                        <ul class="download__menu">
+                                            <li>
+                                                <a
+                                                    href={show.losslessUrl}
+                                                    download
+                                                >
+                                                    LOSSLESS
+                                                    <span
+                                                        class="download__hint"
+                                                    >
+                                                        FLAC · {show.losslessSize}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href={show.compressedUrl}
+                                                    download
+                                                >
+                                                    COMPRESSED
+                                                    <span
+                                                        class="download__hint"
+                                                    >
+                                                        AAC · {show.compressedSize}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </details>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                ))}
+            </ol>
+        ) : (
+            <section class="empty-state" aria-labelledby="empty-state-title">
+                <p class="empty-state__signal" aria-hidden="true"></p>
+                <div>
+                    <h2 id="empty-state-title">Loading error</h2>
+                    <p>
+                        The recordings could not be loaded right now. Please
+                        check back soon.
+                    </p>
+                </div>
+            </section>
+        )}
+    </main>
+</Layout>
+
+<style>
+    main {
+        --timeline-marker-size: clamp(2.75rem, 5vw, 4.5rem);
+        --timeline-offset: calc(var(--timeline-marker-size) + var(--space-page));
+        inline-size: 100%;
+        min-block-size: 100dvh;
+        max-inline-size: 72rem;
+        margin-inline: auto;
+        padding-inline: var(--space-page);
+        padding-block: var(--space-intro-start) calc(var(--space-intro-start) + var(--space-page));
+    }
+
+    .site-nav {
+        position: absolute;
+        display: flex;
+        inset-block-start: var(--space-page);
+        inset-inline-start: var(--space-page);
+    }
+
+    .site-nav__link {
+        color: var(--color-text);
+        font-size: 0.875rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-underline-offset: 0.4em;
+        transition: color 180ms ease;
+    }
+
+    .site-nav__link::before {
+        content: "←";
+        margin-inline-end: 0.5em;
+    }
+
+    .site-nav__link:hover,
+    .site-nav__link:focus-visible {
+        color: var(--color-signal-green);
+    }
+
+    .site-nav__link:focus-visible {
+        outline: 2.5px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
+    }
+
+    .archive-header {
+        max-inline-size: 42rem;
+        margin-block-end: 3rem;
+    }
+
+    .show__label {
+        margin: 0 0 1rem;
+        color: var(--color-signal-yellow);
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: var(--type-message);
+        line-height: var(--leading-message);
+        letter-spacing: var(--tracking-message);
+        overflow-wrap: break-word;
+    }
+
+    h1 span {
+        white-space: nowrap;
+    }
+
+    .archive-header__intro {
+        max-inline-size: 35ch;
+        margin: 1.5rem 0 0;
+        font-size: clamp(1.125rem, 2vw, 1.375rem);
+        line-height: 1.45;
+        text-wrap: pretty;
+    }
+
+    .timeline {
+        position: relative;
+        display: grid;
+        list-style: none;
+        gap: clamp(4rem, 9vw, 8rem);
+        margin: 0;
+        padding: 0;
+    }
+
+    .timeline::before {
+        position: absolute;
+        inset-block-start: calc(var(--timeline-marker-size) / 2 + 0.15rlh);
+        inset-block-end: 0;
+        inline-size: 2px;
+        content: "";
+        inset-inline-start: calc(var(--timeline-marker-size) / 2 - 1px);
+        background: color-mix(in srgb, var(--color-text) 28%, transparent);
+    }
+
+    .timeline__item {
+        --item-accent: var(--color-signal-red);
+        position: relative;
+        min-inline-size: 0;
+        padding-inline-start: var(--timeline-offset);
+    }
+
+    .timeline__item:nth-child(3n + 2) {
+        --item-accent: var(--color-signal-yellow);
+    }
+
+    .timeline__item:nth-child(3n) {
+        --item-accent: var(--color-signal-green);
+    }
+
+    .timeline__marker {
+        position: absolute;
+        z-index: 1;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        inline-size: var(--timeline-marker-size);
+        block-size: var(--timeline-marker-size);
+        border: 2px solid var(--item-accent);
+        background: var(--color-canvas);
+        color: var(--item-accent);
+        font-weight: 500;
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.04em;
+        line-height: 1.1;
+    }
+
+    .timeline__marker-text {
+        display: block;
+        translate: 0 -0.05rlh;
+    }
+
+    .show {
+        display: grid;
+        gap: clamp(1.5rem, 3vw, 3rem);
+        min-inline-size: 0;
+    }
+    .show__media {
+        position: relative;
+        margin: 0;
+        overflow: hidden;
+        background: color-mix(in srgb, var(--color-text) 8%, var(--color-canvas));
+    }
+
+    .show__media::after {
+        position: absolute;
+        inset-block-end: 0;
+        inset-inline: 0;
+        block-size: 0.25rem;
+        background: var(--item-accent);
+        content: "";
+    }
+
+    .show__media img,
+    .show__placeholder {
+        display: block;
+        inline-size: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+
+    .show__media img {
+        block-size: auto;
+    }
+
+    .show__placeholder {
+        display: grid;
+        place-items: center;
+        color: color-mix(in srgb, var(--color-text) 45%, transparent);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .show__content {
+        align-self: center;
+        min-inline-size: 0;
+    }
+
+    .show__label {
+        color: var(--item-accent);
+    }
+
+    h2 {
+        margin: 0;
+        color: var(--color-text);
+        font-size: clamp(1.75rem, 3vw, 2.75rem);
+        line-height: 1;
+        letter-spacing: var(--tracking-message);
+        overflow-wrap: break-word;
+        text-wrap: balance;
+    }
+
+    .show__date {
+        margin: 0.75rem 0 0;
+        color: color-mix(in srgb, var(--color-text) 70%, transparent);
+        font-size: clamp(1.125rem, 2vw, 1.5rem);
+        letter-spacing: 0.04em;
+    }
+
+    .show__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem 1.5rem;
+        margin-block-start: clamp(1.25rem, 2.5vw, 2rem);
+    }
+
+    .show__action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.75rem 1.25rem 1rem;
+        border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
+        color: var(--color-text);
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: normal;
+        cursor: pointer;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-underline-offset: 0.4em;
+        transition: color 180ms ease;
+    }
+
+    .show__watch::after {
+        content: "→";
+    }
+
+    .show__action:hover {
+        color: var(--item-accent);
+    }
+
+    .show__action:focus-visible {
+        color: var(--color-signal-green);
+        outline: 2.5px solid var(--color-signal-green);
+        outline-offset: 0.5rem;
+    }
+
+    .download {
+        position: relative;
+    }
+
+    .download[open] {
+        z-index: 2;
+    }
+
+    .download__trigger {
+        list-style: none;
+    }
+
+    .download__trigger::-webkit-details-marker {
+        display: none;
+    }
+
+    .download__caret {
+        display: inline-block;
+    }
+
+    .download__menu {
+        position: absolute;
+        z-index: 2;
+        inset-block-start: 100%;
+        inset-inline-start: 0;
+        min-inline-size: max(100%, 16rem);
+        margin: 0.5rem 0 0;
+        padding: 0;
+        border: 2.5px solid color-mix(in srgb, currentColor 75%, transparent);
+        background: var(--color-canvas);
+        color: var(--color-text);
+        list-style: none;
+    }
+
+    @media (max-width: 32em) {
+        .download__menu {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
+        }
+    }
+
+    .download__menu li + li {
+        border-block-start: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    }
+
+    .download__menu a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        inline-size: 100%;
+        padding-block: 0.75rem;
+        padding-inline: 1rem;
+        color: var(--color-text);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 180ms ease;
+        white-space: nowrap;
+    }
+
+    .download__menu a:hover {
+        color: var(--item-accent);
+    }
+
+    .download__menu a:focus-visible {
+        color: var(--color-signal-green);
+        outline: 2.5px solid var(--color-signal-green);
+        outline-offset: 0.25rem;
+    }
+
+    .download__hint {
+        opacity: 0.55;
+    }
+
+    .empty-state {
+        display: grid;
+        align-items: start;
+        gap: var(--space-page);
+        grid-template-columns: auto minmax(0, 36rem);
+        padding-block: clamp(2rem, 6vw, 5rem);
+        border-block: 2px solid color-mix(in srgb, var(--color-text) 25%, transparent);
+    }
+
+    .empty-state__signal {
+        display: block;
+        margin: 0;
+        inline-size: clamp(2.75rem, 5vw, 4.5rem);
+        block-size: clamp(2.75rem, 5vw, 4.5rem);
+        border: 2px solid var(--color-signal-red);
+        border-radius: 999px;
+    }
+
+    .empty-state h2 {
+        font-size: clamp(1.75rem, 4vw, 3rem);
+    }
+
+    .empty-state p:not(.empty-state__signal) {
+        margin: 1rem 0 0;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        text-wrap: pretty;
+    }
+
+    @media (min-width: 40em) {
+        .show {
+            grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 1fr);
+        }
+    }
+
+    @media (min-width: 100em) {
+        .timeline__marker-text {
+            translate: 0 -0.08rlh;
+        }
+    }
+
+    @media (max-width: 32em) {
+        main {
+            --timeline-marker-size: 2.75rem;
+        }
+
+        .site-nav {
+            position: static;
+            margin-block-end: calc(2 * var(--space-page));
+        }
+
+        .archive-header {
+            margin-block-end: 4rem;
+        }
+
+        h1 {
+            font-size: clamp(2.25rem, 10.8vw, 2.75rem);
+        }
+
+        .timeline {
+            gap: 4rem;
+        }
+
+        .show__actions {
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .download__menu {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .show__media img {
+            filter: saturate(0.875);
+            transition: filter 180ms ease;
+        }
+
+        .timeline__item:hover .show__media img,
+        .timeline__item:focus-within .show__media img {
+            filter: saturate(1.1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .site-nav__link,
+        .show__action,
+        .download__menu a {
+            transition: none;
+        }
+    }
+</style>
+
+<script is:inline>
+    document.addEventListener("astro:page-load", () => {
+        if (document.documentElement.dataset.downloadDocBound !== "true") {
+            document.documentElement.dataset.downloadDocBound = "true"
+
+            document.addEventListener("pointerdown", (event) => {
+                const target = event.target
+                if (!(target instanceof Node)) return
+
+                document
+                    .querySelectorAll("details.download[open]")
+                    .forEach((download) => {
+                        if (!download.contains(target)) {
+                            download.removeAttribute("open")
+                        }
+                    })
+            })
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key !== "Escape") return
+
+                document
+                    .querySelectorAll("details.download[open]")
+                    .forEach((download) => {
+                        download.removeAttribute("open")
+                    })
+            })
+        }
+
+        document.querySelectorAll("details.download").forEach((download) => {
+            if (download.dataset.closeBound === "true") return
+
+            download.dataset.closeBound = "true"
+            download
+                .querySelectorAll(".download__menu a")
+                .forEach((link) => {
+                    link.addEventListener("click", () => {
+                        download.removeAttribute("open")
+                    })
+                })
+        })
+    })
+</script>
