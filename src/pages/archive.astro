@@ -49,7 +49,7 @@ const shows = await getArchivedShows()
                             <div class="show__content">
                                 <h2>{show.title}</h2>
                                 {show.date ? (
-                                    <p class="show__date">{show.date}</p>
+                                    <p class="show__date">{show.date.toUpperCase()}</p>
                                 ) : null}
                                 <div class="show__actions">
                                     <a
