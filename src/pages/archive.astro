@@ -170,16 +170,6 @@ const shows = await getArchivedShows()
         margin-block-end: 3rem;
     }
 
-    .show__label {
-        margin: 0 0 1rem;
-        color: var(--color-signal-yellow);
-        font-size: 0.75rem;
-        font-weight: 500;
-        line-height: 1;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-
     h1 {
         margin: 0;
         font-size: var(--type-message);
@@ -190,14 +180,6 @@ const shows = await getArchivedShows()
 
     h1 span {
         white-space: nowrap;
-    }
-
-    .archive-header__intro {
-        max-inline-size: 35ch;
-        margin: 1.5rem 0 0;
-        font-size: clamp(1.125rem, 2vw, 1.375rem);
-        line-height: 1.45;
-        text-wrap: pretty;
     }
 
     .timeline {
@@ -306,10 +288,6 @@ const shows = await getArchivedShows()
         min-inline-size: 0;
     }
 
-    .show__label {
-        color: var(--item-accent);
-    }
-
     h2 {
         margin: 0;
         color: var(--color-text);
@@ -416,7 +394,6 @@ const shows = await getArchivedShows()
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
-        inline-size: 100%;
         padding-block: 0.75rem;
         padding-inline: 1rem;
         color: var(--color-text);
@@ -450,7 +427,6 @@ const shows = await getArchivedShows()
     }
 
     .empty-state__signal {
-        display: block;
         margin: 0;
         inline-size: clamp(2.75rem, 5vw, 4.5rem);
         block-size: clamp(2.75rem, 5vw, 4.5rem);
@@ -482,10 +458,6 @@ const shows = await getArchivedShows()
     }
 
     @media (max-width: 32em) {
-        main {
-            --timeline-marker-size: 2.75rem;
-        }
-
         .site-nav {
             position: static;
             margin-block-end: calc(2 * var(--space-page));
@@ -497,21 +469,6 @@ const shows = await getArchivedShows()
 
         h1 {
             font-size: clamp(2.25rem, 10.8vw, 2.75rem);
-        }
-
-        .timeline {
-            gap: 4rem;
-        }
-
-        .show__actions {
-            align-items: center;
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-
-        .download__menu {
-            inset-inline-start: auto;
-            inset-inline-end: 0;
         }
     }
 
@@ -537,45 +494,43 @@ const shows = await getArchivedShows()
 </style>
 
 <script is:inline>
-    document.addEventListener("astro:page-load", () => {
-        if (document.documentElement.dataset.downloadDocBound !== "true") {
-            document.documentElement.dataset.downloadDocBound = "true"
+    if (document.documentElement.dataset.downloadDocBound !== "true") {
+        document.documentElement.dataset.downloadDocBound = "true"
 
-            document.addEventListener("pointerdown", (event) => {
-                const target = event.target
-                if (!(target instanceof Node)) return
+        document.addEventListener("pointerdown", (event) => {
+            const target = event.target
+            if (!(target instanceof Node)) return
 
-                document
-                    .querySelectorAll("details.download[open]")
-                    .forEach((download) => {
-                        if (!download.contains(target)) {
-                            download.removeAttribute("open")
-                        }
-                    })
-            })
-
-            document.addEventListener("keydown", (event) => {
-                if (event.key !== "Escape") return
-
-                document
-                    .querySelectorAll("details.download[open]")
-                    .forEach((download) => {
+            document
+                .querySelectorAll("details.download[open]")
+                .forEach((download) => {
+                    if (!download.contains(target)) {
                         download.removeAttribute("open")
-                    })
-            })
-        }
-
-        document.querySelectorAll("details.download").forEach((download) => {
-            if (download.dataset.closeBound === "true") return
-
-            download.dataset.closeBound = "true"
-            download
-                .querySelectorAll(".download__menu a")
-                .forEach((link) => {
-                    link.addEventListener("click", () => {
-                        download.removeAttribute("open")
-                    })
+                    }
                 })
         })
-    })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return
+
+            document
+                .querySelectorAll("details.download[open]")
+                .forEach((download) => {
+                    download.removeAttribute("open")
+                })
+        })
+
+        document.addEventListener("click", (event) => {
+            const target = event.target
+            if (!(target instanceof Element)) return
+
+            const link = target.closest(".download__menu a")
+            if (!(link instanceof HTMLAnchorElement)) return
+
+            const download = link.closest("details.download")
+            if (!(download instanceof HTMLDetailsElement)) return
+
+            download.removeAttribute("open")
+        })
+    }
 </script>
