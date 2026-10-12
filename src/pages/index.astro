@@ -35,6 +35,9 @@ const embedSrc =
             <a class="site-nav__link" href="/about/">
                 About
             </a>
+            <a class="site-nav__link" href="/archive/">
+                Archive
+            </a>
         </nav>
 
         {embedSrc && <iframe
@@ -124,6 +127,7 @@ const embedSrc =
         inset-inline-end: var(--space-page);
         display: flex;
         justify-content: flex-end;
+        gap: 1rem;
     }
 
     @media (max-width: 32em) {
