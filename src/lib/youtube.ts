@@ -1,3 +1,5 @@
+import { getPlaylistThumbnail } from "./youtube-thumbnail"
+
 const YOUTUBE_API_KEY = import.meta.env.YOUTUBE_API_KEY
 const YOUTUBE_CHANNEL_ID = import.meta.env.YOUTUBE_CHANNEL_ID
 
@@ -80,6 +82,7 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 						.trim()
 						.replace(/\s+/g, "-")
 
+					const thumbnailPromise = getPlaylistThumbnail(id)
 					const dateStr = await (async () => {
 						try {
 							const itemsUrl = new URL(
@@ -137,6 +140,7 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 						})(),
 						date: dateStr,
 						thumbnailUrl:
+							(await thumbnailPromise) ??
 							snippet.thumbnails?.maxres?.url ??
 							snippet.thumbnails?.standard?.url ??
 							snippet.thumbnails?.high?.url ??
