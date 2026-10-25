@@ -9,12 +9,17 @@ export async function GET({ request }: APIContext): Promise<Response> {
 	}
 
 	const { origin } = new URL(request.url)
-	const res = await fetch(`${origin}/`, {
-		headers: { "x-prerender-revalidate": bypassToken },
-	})
+	const results = await Promise.all(
+		["/", "/archive"].map(async (path) => {
+			const res = await fetch(`${origin}${path}`, {
+				headers: { "x-prerender-revalidate": bypassToken },
+			})
+			return { path, status: res.status, ok: res.ok }
+		}),
+	)
 
 	return new Response(
-		`homepage revalidated (${res.status})`,
-		res.ok ? { status: 200 } : { status: 502 },
+		results.map(({ path, status }) => `${path} revalidated (${status})`).join("\n"),
+		{ status: results.every(({ ok }) => ok) ? 200 : 502 },
 	)
 }

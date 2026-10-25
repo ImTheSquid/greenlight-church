@@ -82,7 +82,7 @@ const shows = await getArchivedShows()
                                                     <span
                                                         class="download__hint"
                                                     >
-                                                        FLAC · {show.losslessSize}
+                                                        FLAC{show.losslessSize ? ` · ${show.losslessSize}` : ""}
                                                     </span>
                                                 </a>
                                             </li>
@@ -95,7 +95,7 @@ const shows = await getArchivedShows()
                                                     <span
                                                         class="download__hint"
                                                     >
-                                                        AAC · {show.compressedSize}
+                                                        AAC{show.compressedSize ? ` · ${show.compressedSize}` : ""}
                                                     </span>
                                                 </a>
                                             </li>

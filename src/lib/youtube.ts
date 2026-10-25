@@ -1,4 +1,5 @@
 import { getPlaylistThumbnail } from "./youtube-thumbnail"
+import { getArchivedAlbum } from "./albums"
 
 const YOUTUBE_API_KEY = import.meta.env.YOUTUBE_API_KEY
 const YOUTUBE_CHANNEL_ID = import.meta.env.YOUTUBE_CHANNEL_ID
@@ -67,7 +68,7 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 			}[]
 		}
 
-		const shows = await Promise.all(
+		const candidates = await Promise.all(
 			(data.items ?? [])
 				.filter(({ snippet }) =>
 					snippet.title.toUpperCase().startsWith("GREEN LIGHT"),
@@ -81,6 +82,8 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 						.toLowerCase()
 						.trim()
 						.replace(/\s+/g, "-")
+					const album = await getArchivedAlbum(slug)
+					if (!album) return null
 
 					const thumbnailPromise = getPlaylistThumbnail(id)
 					const dateStr = await (async () => {
@@ -122,22 +125,7 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 						number,
 						playlistId: id,
 						watchUrl: `https://www.youtube.com/playlist?list=${id}`,
-						compressedUrl: `https://night.jackhogan.me/albums/${slug}.aac.zip`,
-						compressedSize: (() => {
-							const n = number
-							if (n === "003") return "492MB"
-							if (n === "002") return "323MB"
-							if (n === "001") return "380MB"
-							return ""
-						})(),
-						losslessUrl: `https://night.jackhogan.me/albums/${slug}.zip`,
-						losslessSize: (() => {
-							const n = number
-							if (n === "003") return "1.9GB"
-							if (n === "002") return "901MB"
-							if (n === "001") return "1.4GB"
-							return ""
-						})(),
+						...album,
 						date: dateStr,
 						thumbnailUrl:
 							(await thumbnailPromise) ??
@@ -150,6 +138,7 @@ export async function getArchivedShows(): Promise<ArchivedShow[]> {
 					}
 				})
 		)
+		const shows = candidates.filter((show) => show !== null)
 		shows.sort((left, right) => {
 			if (!left.number && !right.number) return 0
 			if (!left.number) return 1
