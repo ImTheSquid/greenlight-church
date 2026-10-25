@@ -230,7 +230,7 @@ const shows = await getArchivedShows()
         background: var(--color-canvas);
         color: var(--item-accent);
         font-weight: 500;
-        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        font-size: calc(var(--timeline-marker-size) * 0.32);
         font-variant-numeric: tabular-nums;
         letter-spacing: 0.04em;
         line-height: 1.1;
@@ -238,7 +238,7 @@ const shows = await getArchivedShows()
 
     .timeline__marker-text {
         display: block;
-        translate: 0 -0.05rlh;
+        translate: 0 -0.08em;
     }
 
     .show {
@@ -448,12 +448,6 @@ const shows = await getArchivedShows()
     @media (min-width: 40em) {
         .show {
             grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 1fr);
-        }
-    }
-
-    @media (min-width: 100em) {
-        .timeline__marker-text {
-            translate: 0 -0.08rlh;
         }
     }
 
