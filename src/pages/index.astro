@@ -3,30 +3,31 @@ import Layout from "../layouts/Layout.astro";
 import Countdown from "../components/Countdown.astro";
 import Gallery from "../components/Gallery.astro";
 import {
-    showDate,
-    showDateLabel,
+    nextShowDate,
     SHOW_START_OFFSET_MS,
     SHOW_END_OFFSET_MS,
     NEXT_SHOW_ANCHOR,
 } from "../lib/datetime";
-import { getLiveVideo } from "../lib/youtube";
+import { getShowVideo } from "../lib/youtube";
+import cancelledDates from "../data/cancelled.json";
 
 export const prerender = false;
 
 const marqueeColors = ["red", "yellow", "green"];
 
 const now = new Date();
-const liveVideo = await getLiveVideo();
+const showDate = nextShowDate(now, NEXT_SHOW_ANCHOR, cancelledDates);
+const showDateLabel = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    timeZone: "America/Los_Angeles",
+}).format(showDate);
 const windowStart = showDate.getTime() - SHOW_START_OFFSET_MS;
 const windowEnd = showDate.getTime() + SHOW_END_OFFSET_MS;
-const isStreaming =
-    liveVideo !== null &&
-    windowStart <= now.getTime() &&
-    now.getTime() < windowEnd;
-const embedSrc =
-    isStreaming && liveVideo
-        ? `https://www.youtube.com/embed/${liveVideo.videoId}`
-        : null;
+const showVideo = await getShowVideo(windowStart, windowEnd, now.getTime());
+const embedSrc = showVideo
+    ? `https://www.youtube.com/embed/${showVideo.videoId}`
+    : null;
 ---
 
 <Layout>
@@ -90,7 +91,7 @@ const embedSrc =
 
         <Gallery />
 
-        {!isStreaming && <Countdown date={showDate.toISOString()} />}
+        {!showVideo && <Countdown date={showDate.toISOString()} />}
     </main>
 
     <aside class="marquee" aria-hidden="true">

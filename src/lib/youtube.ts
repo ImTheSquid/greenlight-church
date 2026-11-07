@@ -4,23 +4,61 @@ import { getArchivedAlbum } from "./albums"
 const YOUTUBE_API_KEY = import.meta.env.YOUTUBE_API_KEY
 const YOUTUBE_CHANNEL_ID = import.meta.env.YOUTUBE_CHANNEL_ID
 
-export async function getLiveVideo(): Promise<{ videoId: string } | null> {
+export async function getShowVideo(
+	windowStart: number,
+	windowEnd: number,
+	now = Date.now(),
+): Promise<{ videoId: string } | null> {
+	if (now < windowStart || now >= windowEnd) return null
 	if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) return null
 	try {
-		const url = new URL("https://www.googleapis.com/youtube/v3/search")
-		url.searchParams.set("part", "id")
-		url.searchParams.set("channelId", YOUTUBE_CHANNEL_ID)
-		url.searchParams.set("eventType", "live")
-		url.searchParams.set("type", "video")
-		url.searchParams.set("maxResults", "1")
-		url.searchParams.set("key", YOUTUBE_API_KEY)
-		const res = await fetch(url)
-		if (!res.ok) return null
-		const data = (await res.json()) as {
-			items?: { id?: { videoId?: string } }[]
+		for (const eventType of ["live", "completed"] as const) {
+			const url = new URL("https://www.googleapis.com/youtube/v3/search")
+			url.searchParams.set("part", "snippet")
+			url.searchParams.set("channelId", YOUTUBE_CHANNEL_ID)
+			url.searchParams.set("eventType", eventType)
+			url.searchParams.set("type", "video")
+			url.searchParams.set("order", "date")
+			url.searchParams.set("maxResults", eventType === "live" ? "1" : "10")
+			url.searchParams.set("key", YOUTUBE_API_KEY)
+			const res = await fetch(url)
+			if (!res.ok) return null
+			const data = (await res.json()) as {
+				items?: { id?: { videoId?: string } }[]
+			}
+			const videoIds = (data.items ?? [])
+				.map(({ id }) => id?.videoId)
+				.filter((id): id is string => Boolean(id))
+			if (eventType === "live") {
+				if (videoIds[0]) return { videoId: videoIds[0] }
+				continue
+			}
+			if (!videoIds.length) return null
+
+			// Recordings can be published long before the show is scheduled.
+			// Match the actual broadcast start, not the video's publication date.
+			const videosUrl = new URL("https://www.googleapis.com/youtube/v3/videos")
+			videosUrl.searchParams.set("part", "liveStreamingDetails")
+			videosUrl.searchParams.set("id", videoIds.join(","))
+			videosUrl.searchParams.set("key", YOUTUBE_API_KEY)
+			const videosRes = await fetch(videosUrl)
+			if (!videosRes.ok) return null
+			const videos = (await videosRes.json()) as {
+				items?: {
+					id: string
+					liveStreamingDetails?: { actualStartTime?: string }
+				}[]
+			}
+			const recording = (videos.items ?? [])
+				.map(({ id, liveStreamingDetails }) => ({
+					videoId: id,
+					startedAt: Date.parse(liveStreamingDetails?.actualStartTime ?? ""),
+				}))
+				.filter(({ startedAt }) => startedAt >= windowStart && startedAt <= now)
+				.sort((left, right) => right.startedAt - left.startedAt)[0]
+			if (recording) return { videoId: recording.videoId }
 		}
-		const videoId = data.items?.[0]?.id?.videoId
-		return videoId ? { videoId } : null
+		return null
 	} catch {
 		return null
 	}
