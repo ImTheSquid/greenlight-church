@@ -5,7 +5,7 @@ export const NEXT_SHOW_ANCHOR = "2026-07-31"
 const SHOW_WALL_TIME = "21:00:00"
 const SHOW_TIME_ZONE = "America/Los_Angeles"
 export const SHOW_START_OFFSET_MS = 30 * 60_000
-export const SHOW_END_OFFSET_MS = 6 * 3_600_000
+export const SHOW_END_OFFSET_MS = 4 * 3_600_000 // Roll over at 1 AM America/Los_Angeles.
 
 export function wallTimeToInstant(naive: string, timeZone: string): Date {
 	const naiveMs = new Date(naive + "Z").getTime()

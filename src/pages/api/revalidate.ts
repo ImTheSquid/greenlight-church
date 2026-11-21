@@ -8,6 +8,17 @@ export async function GET({ request }: APIContext): Promise<Response> {
 		return new Response("ISR_BYPASS_TOKEN not configured", { status: 500 })
 	}
 
+	// Vercel cron uses UTC; only run the reset at 1 AM Pacific, including DST.
+	// Leave the other refresh schedules and manual revalidation unchanged.
+	if (request.headers.get("x-vercel-cron-schedule") === "0 8,9 * * 6") {
+		const hour = new Intl.DateTimeFormat("en-US", {
+			timeZone: "America/Los_Angeles",
+			hourCycle: "h23",
+			hour: "2-digit",
+		}).format(new Date())
+		if (hour !== "01") return new Response(null, { status: 204 })
+	}
+
 	const { origin } = new URL(request.url)
 	const results = await Promise.all(
 		["/", "/archive"].map(async (path) => {
